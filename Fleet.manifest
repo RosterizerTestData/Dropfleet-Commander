@@ -159,6 +159,9 @@
         "templateClass": "Ship"
       },
       "Ship": {
+        "aspects": {
+          "Type": "game piece"
+        },
         "stats": {
           "A": {
             "ranks": {
@@ -202,25 +205,53 @@
             "groupOrder": 2,
             "ranks": {
               "1": {
-                "order": 0
+                "order": 0,
+                "tracking": {
+                  "maxShip": 1,
+                  "minShip": 1
+                }
               },
               "2": {
-                "order": 4
+                "order": 4,
+                "tracking": {
+                  "maxShip": 2,
+                  "minShip": 2
+                }
               },
               "1-2": {
-                "order": 1
+                "order": 1,
+                "tracking": {
+                  "maxShip": 2,
+                  "minShip": 1
+                }
               },
               "1-3": {
-                "order": 2
+                "order": 2,
+                "tracking": {
+                  "maxShip": 3,
+                  "minShip": 1
+                }
               },
               "1-4": {
-                "order": 3
+                "order": 3,
+                "tracking": {
+                  "maxShip": 4,
+                  "minShip": 1
+                }
               },
               "2-3": {
-                "order": 5
+                "order": 5,
+                "tracking": {
+                  "maxShip": 3,
+                  "minShip": 2
+                }
               },
               "2-4": {
-                "order": 6
+                "order": 6,
+                "tracking": {
+                  "maxShip": 4,
+                  "minShip": 2
+                }
               }
             },
             "statOrder": 8,
@@ -828,6 +859,9 @@
         "text": "Atmospheric, Launch, Open"
       },
       "Medium§San Francisco Troopship": {
+        "aspects": {
+          "Type": "game piece"
+        },
         "keywords": {
           "Keywords": [
             "UCM"
@@ -841,6 +875,9 @@
           },
           "Class": {
             "value": "San Francisco"
+          },
+          "cost": {
+            "value": 105
           },
           "G": {
             "value": "1-2"
@@ -866,7 +903,8 @@
           "Thrust": {
             "value": 8
           }
-        }
+        },
+        "text": "Launch"
       },
       "Roster§Fleet": {
         "allowed": {
@@ -880,6 +918,30 @@
           ]
         },
         "rules": {
+          "Below Point Floor": {
+            "evals": [
+              {
+                "actionable": true,
+                "min": [
+                  "{self}",
+                  "tracked",
+                  "minPoints"
+                ],
+                "not": false,
+                "note": "s",
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "cost"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
           "Flag Count": {
             "evals": [
               {
@@ -932,6 +994,52 @@
             "evaluate": "AND",
             "failState": "error"
           },
+          "Over Launch Cap": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{roster}",
+                  "tracked",
+                  "Launch Cap"
+                ],
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "cost"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Over Point Limit": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{roster}",
+                  "tracked",
+                  "Max Points"
+                ],
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "cost"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
           "Pathfinder Count": {
             "evals": [
               {
@@ -960,9 +1068,6 @@
             "evaluate": "AND",
             "failState": "error"
           },
-          "pnts": {
-            "evals": []
-          },
           "Vanguard Count": {
             "evals": [
               {
@@ -989,6 +1094,13 @@
           }
         },
         "stats": {
+          "assetCount": {
+            "label": "Current Launch",
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
           "Battle Size": {
             "dynamic": true,
             "ranks": {
@@ -996,6 +1108,7 @@
                 "order": 0,
                 "tracking": {
                   "Max Points": 999,
+                  "maxLaunch": 10,
                   "maxLine": 2,
                   "maxPathfinder": 2,
                   "maxVanguard": 1,
@@ -1009,11 +1122,13 @@
                 "tracking": {
                   "Max Points": 1999,
                   "maxFlag": 1,
+                  "maxLaunch": 15,
                   "maxLine": 3,
                   "maxPathfinder": 2,
                   "maxVanguard": 2,
                   "minLine": 1,
-                  "minPathfinder": 1
+                  "minPathfinder": 1,
+                  "minPoints": 1000
                 }
               },
               "Battle": {
@@ -1021,16 +1136,17 @@
                 "tracking": {
                   "Max Points": 3000,
                   "maxFlag": 2,
+                  "maxLaunch": 20,
                   "maxLine": 4,
                   "maxPathfinder": 3,
                   "maxVanguard": 3,
                   "minLine": 1,
-                  "minPathfinder": 1
+                  "minPathfinder": 1,
+                  "minPoints": 2000
                 }
               }
             },
             "statType": "rank",
-            "value": "Skirmish",
             "visibility": "normal"
           },
           "cost": {
@@ -1075,7 +1191,12 @@
           "Max Points": {
             "statType": "numeric",
             "tracked": true,
-            "value": 0,
+            "visibility": "normal"
+          },
+          "maxLaunch": {
+            "label": "Launch Cap",
+            "statType": "numeric",
+            "tracked": true,
             "visibility": "normal"
           }
         }
