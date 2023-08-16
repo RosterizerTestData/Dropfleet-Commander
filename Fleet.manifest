@@ -143,9 +143,6 @@
             "statType": "rank",
             "value": null
           },
-          "Points Cost": {
-            "tracked": true
-          },
           "T": {
             "value": "L"
           }
@@ -164,6 +161,8 @@
         },
         "stats": {
           "A": {
+            "group": "Ship Stats",
+            "groupOrder": 2,
             "ranks": {
               "2+": {
                 "order": 0
@@ -181,8 +180,18 @@
                 "order": 4
               }
             },
+            "statOrder": 6,
             "statType": "rank",
             "value": "2+",
+            "visibility": "normal"
+          },
+          "assetCount": {
+            "group": "Launch",
+            "groupOrder": 1,
+            "label": "Launch Cap",
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
             "visibility": "normal"
           },
           "Class": {
@@ -266,14 +275,6 @@
             "statType": "numeric",
             "value": 0,
             "visibility": "normal"
-          },
-          "Launch Cap": {
-            "group": "Ship Stats",
-            "groupOrder": 2,
-            "statType": "numeric",
-            "tracked": true,
-            "value": 0,
-            "visibility": "hidden"
           },
           "PD": {
             "group": "Ship Stats",
@@ -704,6 +705,9 @@
           "A": {
             "value": "5+"
           },
+          "assetCount": {
+            "value": 1
+          },
           "Class": {
             "value": "Gargoyle"
           },
@@ -715,9 +719,6 @@
           },
           "Hull": {
             "value": 4
-          },
-          "Launch Cap": {
-            "value": 1
           },
           "PD": {
             "value": 4
@@ -744,6 +745,9 @@
           "A": {
             "value": "3+"
           },
+          "assetCount": {
+            "value": 1
+          },
           "Class": {
             "value": "Medea"
           },
@@ -756,14 +760,8 @@
           "Hull": {
             "value": 5
           },
-          "Launch Cap": {
-            "value": 1
-          },
           "PD": {
             "value": 3
-          },
-          "Points Cost": {
-            "value": 32
           },
           "Scan": {
             "value": 8
@@ -774,7 +772,8 @@
           "Thrust": {
             "value": 10
           }
-        }
+        },
+        "text": "Atmospheric, Launch, Open"
       },
       "Light§New Orleans Strike Carrier": {
         "aspects": {
@@ -828,6 +827,9 @@
           "A": {
             "value": "4+"
           },
+          "assetCount": {
+            "value": 1
+          },
           "Class": {
             "value": "New Orleans"
           },
@@ -839,9 +841,6 @@
           },
           "Hull": {
             "value": 4
-          },
-          "Launch Cap": {
-            "value": 1
           },
           "PD": {
             "value": 3
@@ -859,9 +858,6 @@
         "text": "Atmospheric, Launch, Open"
       },
       "Medium§San Francisco Troopship": {
-        "aspects": {
-          "Type": "game piece"
-        },
         "keywords": {
           "Keywords": [
             "UCM"
@@ -869,9 +865,10 @@
         },
         "stats": {
           "A": {
-            "group": "Ship Stats",
-            "statOrder": 6,
             "value": "3+"
+          },
+          "assetCount": {
+            "value": 2
           },
           "Class": {
             "value": "San Francisco"
@@ -884,9 +881,6 @@
           },
           "Hull": {
             "value": 10
-          },
-          "Launch Cap": {
-            "value": 2
           },
           "PD": {
             "value": 5
@@ -1001,7 +995,7 @@
                 "max": [
                   "{roster}",
                   "tracked",
-                  "Launch Cap"
+                  "maxLaunch"
                 ],
                 "not": false,
                 "operator": "AND",
@@ -1009,7 +1003,7 @@
                   [
                     "{self}",
                     "tracked",
-                    "cost"
+                    "assetCount"
                   ]
                 ]
               }
@@ -1096,6 +1090,7 @@
         "stats": {
           "assetCount": {
             "label": "Current Launch",
+            "statOrder": 3,
             "statType": "numeric",
             "tracked": true,
             "value": 0,
@@ -1146,11 +1141,14 @@
                 }
               }
             },
+            "statOrder": 1,
             "statType": "rank",
+            "value": "Skirmish",
             "visibility": "normal"
           },
           "cost": {
             "label": "Current Points",
+            "statOrder": 2,
             "statType": "numeric",
             "tracked": true,
             "value": 0,
@@ -1184,19 +1182,25 @@
                 "term": "Resistance"
               }
             },
+            "statOrder": 7,
             "statType": "rank",
             "value": "-",
             "visibility": "normal"
           },
           "Max Points": {
+            "label": "Point Cap",
+            "statOrder": 4,
             "statType": "numeric",
             "tracked": true,
+            "value": null,
             "visibility": "normal"
           },
           "maxLaunch": {
             "label": "Launch Cap",
+            "statOrder": 5,
             "statType": "numeric",
             "tracked": true,
+            "value": null,
             "visibility": "normal"
           }
         }
