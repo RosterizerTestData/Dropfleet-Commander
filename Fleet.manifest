@@ -161,17 +161,39 @@
       "Ship": {
         "stats": {
           "A": {
-            "group": "Ship Stats",
-            "groupOrder": 2,
-            "statOrder": 6,
-            "statType": "numeric",
-            "value": 0,
+            "ranks": {
+              "2+": {
+                "order": 0
+              },
+              "3+": {
+                "order": 1
+              },
+              "4+": {
+                "order": 2
+              },
+              "5+": {
+                "order": 3
+              },
+              "6+": {
+                "order": 4
+              }
+            },
+            "statType": "rank",
+            "value": "2+",
             "visibility": "normal"
           },
           "Class": {
             "group": "Ship Stats",
             "groupOrder": 2,
+            "statType": "term",
+            "value": null,
+            "visibility": "normal"
+          },
+          "cost": {
+            "group": "Points",
+            "label": "Cost per Ship",
             "statType": "numeric",
+            "tracked": true,
             "value": 0,
             "visibility": "normal"
           },
@@ -214,19 +236,20 @@
             "value": 0,
             "visibility": "normal"
           },
+          "Launch Cap": {
+            "group": "Ship Stats",
+            "groupOrder": 2,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "hidden"
+          },
           "PD": {
             "group": "Ship Stats",
             "groupOrder": 2,
             "statOrder": 7,
             "statType": "numeric",
             "value": null,
-            "visibility": "normal"
-          },
-          "Points Cost": {
-            "group": "Points",
-            "statType": "numeric",
-            "tracked": true,
-            "value": 0,
             "visibility": "normal"
           },
           "Scan": {
@@ -250,37 +273,37 @@
               "L": {
                 "order": 0,
                 "tracking": {
-                  "Tonnage": 1
+                  "Strategy Rating": 1
                 }
               },
               "L2": {
                 "order": 1,
                 "tracking": {
-                  "Tonnage": 2
+                  "Strategy Rating": 2
                 }
               },
               "M": {
                 "order": 2,
                 "tracking": {
-                  "Tonnage": 5
+                  "Strategy Rating": 5
                 }
               },
               "H": {
                 "order": 3,
                 "tracking": {
-                  "Tonnage": 10
+                  "Strategy Rating": 10
                 }
               },
               "S": {
                 "order": 4,
                 "tracking": {
-                  "Tonnage": 15
+                  "Strategy Rating": 15
                 }
               },
               "S2": {
                 "order": 5,
                 "tracking": {
-                  "Tonnage": 30
+                  "Strategy Rating": 30
                 }
               }
             },
@@ -653,11 +676,17 @@
           "Class": {
             "value": "Gargoyle"
           },
+          "cost": {
+            "value": 32
+          },
           "G": {
             "value": "2-4"
           },
           "Hull": {
             "value": 4
+          },
+          "Launch Cap": {
+            "value": 1
           },
           "PD": {
             "value": 4
@@ -687,11 +716,17 @@
           "Class": {
             "value": "Medea"
           },
+          "cost": {
+            "value": 39
+          },
           "G": {
             "value": "1-2"
           },
           "Hull": {
             "value": 5
+          },
+          "Launch Cap": {
+            "value": 1
           },
           "PD": {
             "value": 3
@@ -765,11 +800,17 @@
           "Class": {
             "value": "New Orleans"
           },
+          "cost": {
+            "value": 32
+          },
           "G": {
             "value": "1-2"
           },
           "Hull": {
             "value": 4
+          },
+          "Launch Cap": {
+            "value": 1
           },
           "PD": {
             "value": 3
@@ -785,6 +826,47 @@
           }
         },
         "text": "Atmospheric, Launch, Open"
+      },
+      "Medium§San Francisco Troopship": {
+        "keywords": {
+          "Keywords": [
+            "UCM"
+          ]
+        },
+        "stats": {
+          "A": {
+            "group": "Ship Stats",
+            "statOrder": 6,
+            "value": "3+"
+          },
+          "Class": {
+            "value": "San Francisco"
+          },
+          "G": {
+            "value": "1-2"
+          },
+          "Hull": {
+            "value": 10
+          },
+          "Launch Cap": {
+            "value": 2
+          },
+          "PD": {
+            "value": 5
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 6
+          },
+          "T": {
+            "value": "M"
+          },
+          "Thrust": {
+            "value": 8
+          }
+        }
       },
       "Roster§Fleet": {
         "allowed": {
@@ -951,9 +1033,12 @@
             "value": "Skirmish",
             "visibility": "normal"
           },
-          "Current Points": {
+          "cost": {
+            "label": "Current Points",
             "statType": "numeric",
-            "value": 0
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
           },
           "Faction": {
             "dynamic": true,
