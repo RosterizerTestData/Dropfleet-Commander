@@ -429,52 +429,6 @@
       },
       "Heavy": {
         "rules": {
-          "Admiral": {
-            "actions": [
-              {
-                "actionType": "modify",
-                "iterations": 1,
-                "paths": [
-                  [
-                    "{roster}",
-                    "tracked",
-                    "totalCost"
-                  ]
-                ],
-                "value": -40
-              }
-            ],
-            "evals": [
-              {
-                "actionable": true,
-                "not": false,
-                "operator": "AND",
-                "paths": [
-                  [
-                    "{self}",
-                    "tracked",
-                    "Admiral"
-                  ]
-                ],
-                "value": 1
-              },
-              {
-                "actionable": true,
-                "not": false,
-                "operator": "AND",
-                "paths": [
-                  [
-                    "{roster}",
-                    "tracked",
-                    "Admiral Level"
-                  ]
-                ],
-                "value": 6
-              }
-            ],
-            "evaluate": "AND",
-            "failState": "pass"
-          },
           "Admiral Discount 2": {
             "actions": [
               {
@@ -516,6 +470,52 @@
                   ]
                 ],
                 "value": 2
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 3": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -20
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 3
               }
             ],
             "evaluate": "AND",
@@ -613,7 +613,7 @@
             "evaluate": "AND",
             "failState": "pass"
           },
-          "Admiral Discount3": {
+          "Admiral Discount 6": {
             "actions": [
               {
                 "actionType": "modify",
@@ -625,7 +625,7 @@
                     "totalCost"
                   ]
                 ],
-                "value": -20
+                "value": -40
               }
             ],
             "evals": [
@@ -653,7 +653,7 @@
                     "Admiral Level"
                   ]
                 ],
-                "value": 3
+                "value": 6
               }
             ],
             "evaluate": "AND",
@@ -749,7 +749,6 @@
         },
         "templateClass": "Group"
       },
-      "mediu": {},
       "Medium": {
         "stats": {
           "Admiral": {
@@ -766,6 +765,13 @@
         "templateClass": "Group"
       },
       "Scourge Weapons": {
+        "aspects": {
+          "Lock Qty": true,
+          "Type": "game piece"
+        },
+        "keywords": {
+          "Tags": []
+        },
         "stats": {
           "Arc": {
             "group": "Weapon Stats",
@@ -819,9 +825,473 @@
         }
       },
       "SuperHeavy": {
+        "rules": {
+          "Admiral Discount 2": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -20
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 2
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 3": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -40
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 3
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 4": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -60
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 4
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 5": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -60
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 5
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 6": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -60
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 6
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
         "templateClass": "Group"
       },
       "SuperHeavy2": {
+        "rules": {
+          "Admiral Discount 2": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -20
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 2
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 3": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -40
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 3
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 4": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -60
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 4
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 5": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -60
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 5
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 6": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -60
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 6
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
         "templateClass": "Group"
       }
     },
@@ -1610,7 +2080,7 @@
           }
         }
       },
-      "Close-Action Weapons§Plasma Squall (Incubus)": {
+      "Close-Action Weapons§Plasma squall": {
         "keywords": {
           "Tags": [
             "Scourge"
@@ -1631,7 +2101,7 @@
           }
         }
       },
-      "Close-Action Weapons§Plasma Squall (Nickar)": {
+      "Close-Action Weapons§Plasma Squall": {
         "keywords": {
           "Tags": [
             "Scourge"
@@ -1918,8 +2388,8 @@
         },
         "assets": {
           "traits": [
-            "Scourge Weapons§Oculus Beams (F/S)",
-            "Close-Action Weapons§Plasma Cloud"
+            "Close-Action Weapons§Plasma Cloud",
+            "Scourge Weapons§Oculus beams"
           ]
         },
         "keywords": {
@@ -2723,10 +3193,358 @@
           }
         }
       },
-      "Scourge Weapons§Oculus Beams (F)": {
+      "Scourge Weapons§Battleship Oculus Beam Array": {
         "stats": {
           "Arc": {
             "value": "F"
+          },
+          "Attack": {
+            "value": 3
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          }
+        }
+      },
+      "Scourge Weapons§Furnace Battery": {
+        "stats": {
+          "Arc": {
+            "value": "F"
+          },
+          "Attack": {
+            "value": 3
+          },
+          "Damage": {
+            "value": 1
+          },
+          "Lock": {
+            "value": "3+"
+          },
+          "Special": {
+            "value": "Burnthrough (12), Corruptor, Flash"
+          }
+        }
+      },
+      "Scourge Weapons§Furnace Cannons": {
+        "stats": {
+          "Arc": {
+            "value": "F(N)"
+          },
+          "Attack": {
+            "value": 4
+          },
+          "Damage": {
+            "value": 1
+          },
+          "Lock": {
+            "value": "3+"
+          },
+          "Special": {
+            "value": "Burnthrough (8), Corruptor, Flash"
+          }
+        }
+      },
+      "Scourge Weapons§Furnace Fangs": {
+        "stats": {
+          "Arc": {
+            "value": "F(N)"
+          },
+          "Attack": {
+            "value": 4
+          },
+          "Damage": {
+            "value": 1
+          },
+          "Lock": {
+            "value": "3+"
+          },
+          "Special": {
+            "value": "Burnthrough (10), Corruptor, Flash"
+          }
+        }
+      },
+      "Scourge Weapons§Furnace Triad": {
+        "stats": {
+          "Arc": {
+            "value": "F(N)"
+          },
+          "Attack": {
+            "value": 3
+          },
+          "Damage": {
+            "value": 3
+          },
+          "Lock": {
+            "value": "3+"
+          },
+          "Special": {
+            "value": "Burnthrough (18), Corruptor, Flash"
+          }
+        }
+      },
+      "Scourge Weapons§Magnetron Lash": {
+        "stats": {
+          "Arc": {
+            "value": "F(N)"
+          },
+          "Attack": {
+            "value": 4
+          },
+          "Damage": {
+            "value": 1
+          },
+          "Lock": {
+            "ranks": {
+              "*": {
+                "order": 4
+              }
+            },
+            "value": "*"
+          },
+          "Special": {
+            "value": "Burnthrough (8), Close Action, Mauler, Scald"
+          }
+        },
+        "text": "Lock Value of the Magnetron Lash is equal to Targets Armour save value."
+      },
+      "Scourge Weapons§Mega Plasma Lance Battery": {
+        "stats": {
+          "Arc": {
+            "value": "F/S"
+          },
+          "Attack": {
+            "value": 6
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "4+"
+          },
+          "Special": {
+            "value": "Calibre (H&S)"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Beam Array": {
+        "stats": {
+          "Arc": {
+            "value": "F"
+          },
+          "Attack": {
+            "value": 2
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Beam Array L": {
+        "stats": {
+          "Arc": {
+            "value": "F/S(L)"
+          },
+          "Attack": {
+            "value": 2
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Beam Array R": {
+        "stats": {
+          "Arc": {
+            "value": "F/S(R)"
+          },
+          "Attack": {
+            "value": 2
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Beam Array, Port": {
+        "stats": {
+          "Arc": {
+            "value": "F/S(L)"
+          },
+          "Attack": {
+            "value": 2
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          },
+          "Special": {
+            "value": "Linked-2, Scald"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Beam Array, Starboard": {
+        "stats": {
+          "Arc": {
+            "value": "F/S(R)"
+          },
+          "Attack": {
+            "value": 2
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          },
+          "Special": {
+            "value": "Linked-1, Scald"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Beam Crest": {
+        "stats": {
+          "Arc": {
+            "value": "F"
+          },
+          "Attack": {
+            "value": 2
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Beam Phalanx (L)": {
+        "stats": {
+          "Arc": {
+            "value": "F/S(L)"
+          },
+          "Attack": {
+            "value": 3
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          },
+          "Special": {
+            "value": "Linked-1, Scald"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Beam Phalanx (R)": {
+        "stats": {
+          "Arc": {
+            "value": "F/S(R)"
+          },
+          "Attack": {
+            "value": 3
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          },
+          "Special": {
+            "value": "Linked-1, Scald"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Beam Phalanx L": {
+        "stats": {
+          "Arc": {
+            "value": "F/S(L)"
+          },
+          "Attack": {
+            "value": 3
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Beam Phalanx R": {
+        "stats": {
+          "Arc": {
+            "value": "F/S(R)"
+          },
+          "Attack": {
+            "value": 3
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Beam Super Phalanx": {
+        "stats": {
+          "Arc": {
+            "value": "F"
+          },
+          "Attack": {
+            "value": 8
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus beams": {
+        "aspects": {
+          "Group Traits": true
+        },
+        "assets": {
+          "traits": []
+        },
+        "keywords": {
+          "Tags": [
+            "F/S"
+          ]
+        },
+        "stats": {
+          "Arc": {
+            "ranks": {
+              "1": {
+                "format": "F",
+                "order": 0,
+                "term": "F"
+              },
+              "2": {
+                "format": "F/S",
+                "order": 1,
+                "term": "F/S"
+              }
+            },
+            "statType": "rank",
+            "value": "2"
           },
           "Attack": {
             "value": 1
@@ -2739,10 +3557,28 @@
           }
         }
       },
-      "Scourge Weapons§Oculus Beams (F/S)": {
+      "Scourge Weapons§Oculus Beams": {
+        "keywords": {
+          "Tags": [
+            "F"
+          ]
+        },
         "stats": {
           "Arc": {
-            "value": "F"
+            "ranks": {
+              "1": {
+                "format": "F",
+                "order": 0,
+                "term": "F"
+              },
+              "2": {
+                "format": "F/S",
+                "order": 1,
+                "term": "F/S"
+              }
+            },
+            "statType": "rank",
+            "value": "1"
           },
           "Attack": {
             "value": 1
@@ -2768,6 +3604,63 @@
           },
           "Lock": {
             "value": "3+"
+          }
+        }
+      },
+      "Scourge Weapons§Plasma Bombs": {
+        "stats": {
+          "Arc": {
+            "value": "F/S"
+          },
+          "Attack": {
+            "value": 4
+          },
+          "Damage": {
+            "value": 1
+          },
+          "Lock": {
+            "value": "4+"
+          },
+          "Special": {
+            "value": "Bombardment, Low Level, Scal"
+          }
+        }
+      },
+      "Scourge Weapons§Plasma Bombs (Lamassu)": {
+        "stats": {
+          "Arc": {
+            "value": "F/S"
+          },
+          "Attack": {
+            "value": 2
+          },
+          "Damage": {
+            "value": 1
+          },
+          "Lock": {
+            "value": "3+"
+          },
+          "Special": {
+            "value": "Bombardment"
+          }
+        }
+      },
+      "Scourge Weapons§Reverse Grav-Cannon": {
+        "stats": {
+          "Arc": {
+            "value": "F/S"
+          },
+          "Attack": {
+            "value": 2
+          },
+          "Damage": {
+            "value": 1
+          },
+          "Lock": {
+            "value": "3+"
+          },
+          "Special": {
+            "value": "Escape Velocity"
           }
         }
       }
