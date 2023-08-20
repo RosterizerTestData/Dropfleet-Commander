@@ -1,11 +1,11 @@
 {
   "name": "Dropfleet Commander",
-  "revision": "0.0.1",
+  "revision": "0.1.1",
   "game": "Dropfleet Commander",
   "genre": "sci-fi",
   "publisher": "TTCombat",
   "url": "",
-  "notes": "Dropfleet Commander WIP roster for 1.6",
+  "notes": "Dropfleet Commander WIP roster for 1.6 and FAQ 2.5",
   "wip": true,
   "manifest": {
     "assetTaxonomy": {
@@ -35,6 +35,33 @@
             "evaluate": "AND",
             "failState": "pass"
           },
+          "BattlegroupCost": {
+            "evals": []
+          },
+          "Maximum of 33% of point cap can be spent on a single Battlegroup, or 50% if playing Skirmish": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{roster}",
+                  "tracked",
+                  "Maxgrouppts"
+                ],
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error",
+            "order": 1
+          },
           "Strategy": {
             "evals": []
           }
@@ -63,6 +90,14 @@
           },
           "Strategy Rating": {
             "group": "Battlegroup Info",
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
+          "totalCost": {
+            "group": "Battlegroup Info",
+            "label": "totalCost",
             "statType": "numeric",
             "tracked": true,
             "value": 0,
@@ -154,6 +189,28 @@
             "value": "2+",
             "visibility": "normal"
           },
+          "Admiral": {
+            "dynamic": true,
+            "group": "Other",
+            "groupOrder": 3,
+            "ranks": {
+              "0": {
+                "order": 0,
+                "term": "0"
+              },
+              "1": {
+                "number": 1,
+                "order": 1,
+                "term": "1",
+                "text": "1",
+                "tracking": {}
+              }
+            },
+            "statType": "rank",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
           "assetCount": {
             "group": "Launch",
             "groupOrder": 1,
@@ -173,6 +230,7 @@
           "cost": {
             "group": "Points",
             "label": "Cost per Ship",
+            "statOrder": 2,
             "statType": "numeric",
             "tracked": true,
             "value": 0,
@@ -268,6 +326,8 @@
           },
           "Number of Ships": {
             "dynamic": true,
+            "group": "Points",
+            "statOrder": 1,
             "statType": "rank",
             "value": null,
             "visibility": "normal"
@@ -292,6 +352,13 @@
             "groupOrder": 2,
             "statType": "numeric",
             "value": 0,
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Other",
+            "groupOrder": 3,
+            "statType": "term",
+            "value": null,
             "visibility": "normal"
           },
           "T": {
@@ -352,7 +419,7 @@
           "totalCost": {
             "group": "Points",
             "label": "Group Cost",
-            "statOrder": 2,
+            "statOrder": 3,
             "statType": "numeric",
             "tracked": true,
             "value": 0,
@@ -361,6 +428,238 @@
         }
       },
       "Heavy": {
+        "rules": {
+          "Admiral": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -40
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 6
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 2": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -20
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 2
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 4": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -40
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 4
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 5": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -20
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 5
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount3": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -20
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 3
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
         "templateClass": "Group"
       },
       "Light": {
@@ -402,6 +701,9 @@
             "statType": "rank",
             "value": "2+"
           },
+          "Admiral": {
+            "visibility": "hidden"
+          },
           "Class": {
             "statType": "term",
             "value": null
@@ -440,10 +742,81 @@
         "templateClass": "Group"
       },
       "Light2": {
+        "stats": {
+          "Admiral": {
+            "visibility": "hidden"
+          }
+        },
         "templateClass": "Group"
       },
+      "mediu": {},
       "Medium": {
+        "stats": {
+          "Admiral": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 1,
+                "term": "1"
+              }
+            },
+            "value": "0"
+          }
+        },
         "templateClass": "Group"
+      },
+      "Scourge Weapons": {
+        "stats": {
+          "Arc": {
+            "group": "Weapon Stats",
+            "statOrder": 4,
+            "statType": "term",
+            "value": "F/S/R",
+            "visibility": "normal"
+          },
+          "Attack": {
+            "group": "Weapon Stats",
+            "statOrder": 2,
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Weapon Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Weapon Stats",
+            "ranks": {
+              "2+": {
+                "order": 0
+              },
+              "3+": {
+                "order": 1
+              },
+              "4+": {
+                "order": 2
+              },
+              "5+": {
+                "order": 3
+              }
+            },
+            "statOrder": 1,
+            "statType": "rank",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Weapon Stats",
+            "statOrder": 7,
+            "statType": "term",
+            "value": "Scald",
+            "visibility": "normal"
+          }
+        }
       },
       "SuperHeavy": {
         "templateClass": "Group"
@@ -457,7 +830,9 @@
         "allowed": {
           "classifications": [
             "Light",
-            "Light2"
+            "Light2",
+            "SuperHeavy",
+            "SuperHeavy2"
           ],
           "items": []
         },
@@ -660,6 +1035,39 @@
             "evaluate": "AND",
             "failState": "pass"
           },
+          "Maximum 50% of points can be in one Battlegroup for Skirmish": {
+            "evals": [
+              {
+                "actionable": false,
+                "contains": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "stats",
+                    "Battle Size",
+                    "ranks"
+                  ]
+                ],
+                "value": "Skirmish"
+              },
+              {
+                "actionable": true,
+                "max": 500,
+                "min": 0,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ]
+              }
+            ]
+          },
           "Maximum of 3 Groups": {
             "evals": [
               {
@@ -851,7 +1259,10 @@
       "Battlegroup§Vanguard": {
         "allowed": {
           "classifications": [
-            "Light"
+            "Light",
+            "Heavy",
+            "Medium",
+            "Light2"
           ],
           "items": []
         },
@@ -977,6 +1388,45 @@
           }
         }
       },
+      "Close-Action Weapons§Barracuda-S Missile Bays": {
+        "keywords": {
+          "Tags": [
+            "UCM"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "value": 3
+          },
+          "Damage": {
+            "value": 1
+          },
+          "Lock": {
+            "value": "4+"
+          }
+        }
+      },
+      "Close-Action Weapons§Haywire Blaster": {
+        "keywords": {
+          "Tags": [
+            "UCM"
+          ]
+        },
+        "stats": {
+          "Arc": {
+            "value": "F"
+          },
+          "Attack": {
+            "value": 1
+          },
+          "Lock": {
+            "value": "4+"
+          },
+          "Special": {
+            "value": "Close Action (Beam), Haywir"
+          }
+        }
+      },
       "Close-Action Weapons§Hornet Drone Hive": {
         "keywords": {
           "Tags": [
@@ -1070,6 +1520,30 @@
           },
           "Lock": {
             "value": "4+"
+          }
+        }
+      },
+      "Close-Action Weapons§Plasma Brand": {
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "Arc": {
+            "value": "F"
+          },
+          "Attack": {
+            "value": 2
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "4+"
+          },
+          "Special": {
+            "value": "Close Action (Beam)"
           }
         }
       },
@@ -1223,6 +1697,51 @@
           }
         }
       },
+      "Close-Action Weapons§Plasma Torch": {
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "Arc": {
+            "value": "F"
+          },
+          "Attack": {
+            "value": 2
+          },
+          "Damage": {
+            "value": 1
+          },
+          "Lock": {
+            "value": "4+"
+          },
+          "Special": {
+            "value": "Close Action (Beam)"
+          }
+        }
+      },
+      "Close-Action Weapons§Seekers": {
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "value": 4
+          },
+          "Damage": {
+            "value": 1
+          },
+          "Lock": {
+            "value": "3+"
+          },
+          "Special": {
+            "value": "Close Action, Re-Entry, Scald"
+          }
+        }
+      },
       "Close-Action Weapons§Shark Missile Bays": {
         "keywords": {
           "Tags": [
@@ -1238,6 +1757,27 @@
           },
           "Lock": {
             "value": "4+"
+          }
+        }
+      },
+      "Close-Action Weapons§Stingray Missile Bays": {
+        "keywords": {
+          "Tags": [
+            "UCM"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "value": 3
+          },
+          "Damage": {
+            "value": 1
+          },
+          "Lock": {
+            "value": "4+"
+          },
+          "Special": {
+            "value": "Air-to-Air, Close Action, Squadron (3)"
           }
         }
       },
@@ -1277,7 +1817,17 @@
           }
         }
       },
+      "Heavy§test admiral": {
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        }
+      },
       "Light§Gargoyle Strike Carrier": {
+        "aspects": {
+          "Group Traits": true
+        },
         "assets": {
           "traits": [
             "Close-Action Weapons§Plasma Cloud"
@@ -1350,6 +1900,9 @@
           "Sig": {
             "value": 3
           },
+          "Special": {
+            "value": "Atmospheric, Launch, Open"
+          },
           "Thrust": {
             "value": 12
           },
@@ -1357,9 +1910,86 @@
             "label": "Group Cost"
           }
         },
-        "text": "Atmospheric, Launch, Open"
+        "text": ""
+      },
+      "Light§Harpy Frigate": {
+        "aspects": {
+          "Group Traits": true
+        },
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beams (F/S)",
+            "Close-Action Weapons§Plasma Cloud"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "5+"
+          },
+          "Class": {
+            "value": "Harpy"
+          },
+          "cost": {
+            "value": 39
+          },
+          "G": {
+            "value": "2-4"
+          },
+          "Hull": {
+            "value": 4
+          },
+          "Number of Ships": {
+            "ranks": {
+              "2": {
+                "order": 0,
+                "tracking": {
+                  "Strategy Rating": 1,
+                  "totalCost": 78
+                }
+              },
+              "3": {
+                "order": 1,
+                "tracking": {
+                  "Strategy Rating": 2,
+                  "totalCost": 117
+                }
+              },
+              "4": {
+                "order": 2,
+                "tracking": {
+                  "Strategy Rating": 3,
+                  "totalCost": 156
+                }
+              }
+            },
+            "value": "2"
+          },
+          "PD": {
+            "value": 4
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 3
+          },
+          "Special": {
+            "value": "Atmospheric"
+          },
+          "Thrust": {
+            "value": 12
+          }
+        }
       },
       "Light§Medea Strike Carrier": {
+        "aspects": {
+          "Group Traits": true
+        },
         "assets": {
           "traits": [
             "Close-Action Weapons§Wasp Drones"
@@ -1423,14 +2053,18 @@
           "Sig": {
             "value": 3
           },
+          "Special": {
+            "value": "Atmospheric, Launch, Open"
+          },
           "Thrust": {
             "value": 10
           }
         },
-        "text": "Atmospheric, Launch, Open"
+        "text": ""
       },
       "Light§New Orleans Strike Carrier": {
         "aspects": {
+          "Group Traits": true,
           "Type": "game piece"
         },
         "assets": {
@@ -1537,11 +2171,14 @@
           "Sig": {
             "value": 3
           },
+          "Special": {
+            "value": "Atmospheric, Launch, Open"
+          },
           "Thrust": {
             "value": 10
           }
         },
-        "text": "Atmospheric, Launch, Open"
+        "text": ""
       },
       "Medium§San Francisco Troopship": {
         "assets": {
@@ -1609,6 +2246,9 @@
           "Sig": {
             "value": 6
           },
+          "Special": {
+            "value": "Launch"
+          },
           "T": {
             "value": "M"
           },
@@ -1616,7 +2256,7 @@
             "value": 8
           }
         },
-        "text": "Launch"
+        "text": ""
       },
       "Roster§Fleet": {
         "allowed": {
@@ -1630,6 +2270,25 @@
           ]
         },
         "rules": {
+          "Admiral Missing": {
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 0
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
           "Below Point Floor": {
             "evals": [
               {
@@ -1646,7 +2305,7 @@
                   [
                     "{self}",
                     "tracked",
-                    "cost"
+                    "totalCost"
                   ]
                 ]
               }
@@ -1706,6 +2365,49 @@
             "evaluate": "AND",
             "failState": "error"
           },
+          "Maximum AV for Skirmish is 3 and for Clash it is 5": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{self}",
+                  "tracked",
+                  "maxAV"
+                ],
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "AV"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Only one Admiral Permitted": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 1,
+                "min": 0,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
           "Over Launch Cap": {
             "evals": [
               {
@@ -1744,7 +2446,10 @@
                   [
                     "{self}",
                     "tracked",
-                    "cost"
+                    [
+                      "cost",
+                      "totalCost"
+                    ]
                   ]
                 ]
               }
@@ -1830,6 +2535,62 @@
           }
         },
         "stats": {
+          "Admiral Level": {
+            "dynamic": true,
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 0,
+                "tracking": {
+                  "AV": 1
+                }
+              },
+              "2": {
+                "number": 2,
+                "order": 1,
+                "tracking": {
+                  "AV": 2,
+                  "totalCost": 20
+                }
+              },
+              "3": {
+                "number": 3,
+                "order": 2,
+                "tracking": {
+                  "AV": 3,
+                  "totalCost": 40
+                }
+              },
+              "4": {
+                "number": 4,
+                "order": 3,
+                "tracking": {
+                  "AV": 4,
+                  "totalCost": 80
+                }
+              },
+              "5": {
+                "number": 5,
+                "order": 4,
+                "tracking": {
+                  "AV": 5,
+                  "totalCost": 100
+                }
+              },
+              "6": {
+                "number": 6,
+                "order": 5,
+                "tracking": {
+                  "AV": 6,
+                  "totalCost": 140
+                }
+              }
+            },
+            "statType": "rank",
+            "tracked": true,
+            "value": "1",
+            "visibility": "normal"
+          },
           "assetCount": {
             "label": "Current Launch",
             "statOrder": 3,
@@ -1845,7 +2606,9 @@
                 "order": 0,
                 "tracking": {
                   "Max Points": 999,
+                  "maxAV": 3,
                   "maxBattlegroups": 4,
+                  "Maxgrouppts": 500,
                   "maxLaunch": 10,
                   "maxLine": 2,
                   "maxPathfinder": 2,
@@ -1859,8 +2622,10 @@
                 "order": 1,
                 "tracking": {
                   "Max Points": 1999,
+                  "maxAV": 5,
                   "maxBattlegroups": 6,
                   "maxFlag": 1,
+                  "Maxgrouppts": 666,
                   "maxLaunch": 15,
                   "maxLine": 3,
                   "maxPathfinder": 2,
@@ -1874,8 +2639,10 @@
                 "order": 2,
                 "tracking": {
                   "Max Points": 3000,
+                  "maxAV": 6,
                   "maxBattlegroups": 7,
                   "maxFlag": 2,
+                  "Maxgrouppts": 1000,
                   "maxLaunch": 20,
                   "maxLine": 4,
                   "maxPathfinder": 3,
@@ -1953,6 +2720,54 @@
             "tracked": true,
             "value": 0,
             "visibility": "normal"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Beams (F)": {
+        "stats": {
+          "Arc": {
+            "value": "F"
+          },
+          "Attack": {
+            "value": 1
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Beams (F/S)": {
+        "stats": {
+          "Arc": {
+            "value": "F"
+          },
+          "Attack": {
+            "value": 1
+          },
+          "Damage": {
+            "value": 2
+          },
+          "Lock": {
+            "value": "3+"
+          }
+        }
+      },
+      "Scourge Weapons§Oculus Rays": {
+        "stats": {
+          "Arc": {
+            "value": "F"
+          },
+          "Attack": {
+            "value": 1
+          },
+          "Damage": {
+            "value": 1
+          },
+          "Lock": {
+            "value": "3+"
           }
         }
       }
