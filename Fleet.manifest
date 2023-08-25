@@ -59,14 +59,29 @@
               }
             ],
             "evaluate": "AND",
-            "failState": "error",
-            "order": 1
-          },
-          "Strategy": {
-            "evals": []
+            "failState": "error"
           }
         },
         "stats": {
+          "AdmiralSH": {
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "hidden"
+          },
+          "assetCount": {
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "hidden"
+          },
+          "Battlegroup Strategy Rating": {
+            "group": "Battlegroup Info",
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
           "Battlegroup Type": {
             "dynamic": true,
             "group": "Battlegroup Info",
@@ -88,16 +103,9 @@
             "value": null,
             "visibility": "normal"
           },
-          "Strategy Rating": {
-            "group": "Battlegroup Info",
-            "statType": "numeric",
-            "tracked": true,
-            "value": 0,
-            "visibility": "normal"
-          },
           "totalCost": {
             "group": "Battlegroup Info",
-            "label": "totalCost",
+            "label": "Battlegroup Cost",
             "statType": "numeric",
             "tracked": true,
             "value": 0,
@@ -160,13 +168,167 @@
       },
       "Group": {
         "aspects": {
+          "Group Traits": true,
           "Lock Qty": true,
           "Type": "game piece"
+        },
+        "rules": {
+          "groupCost": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "totalCost",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "rules",
+                  "groupCost",
+                  "evals",
+                  "0",
+                  "result",
+                  "integer"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": false,
+                "contains": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": [
+                    "{self}",
+                    "tracked",
+                    "Number of Ships"
+                  ]
+                },
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "cost",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "TotalLaunchAssets": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{parent}",
+                    "stats",
+                    "assetCount",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "rules",
+                  "TotalLaunchAssets",
+                  "evals",
+                  "0",
+                  "result",
+                  "integer"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": false,
+                "contains": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": [
+                    "{self}",
+                    "tracked",
+                    "Number of Ships"
+                  ]
+                },
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "SingleAssetCount"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "totalStrategy": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{parent}",
+                    "stats",
+                    "Battlegroup Strategy Rating",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "rules",
+                  "totalStrategy",
+                  "evals",
+                  "0",
+                  "result",
+                  "integer"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": false,
+                "contains": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": [
+                    "{self}",
+                    "tracked",
+                    "Number of Ships"
+                  ]
+                },
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Strategy Rating"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
         },
         "stats": {
           "A": {
             "group": "Ship Stats",
-            "groupOrder": 2,
+            "groupOrder": 10,
             "ranks": {
               "2+": {
                 "order": 0
@@ -206,23 +368,20 @@
                 "tracking": {}
               }
             },
+            "statOrder": 3,
             "statType": "rank",
             "tracked": true,
             "value": 0,
             "visibility": "normal"
           },
           "assetCount": {
-            "group": "Launch",
-            "groupOrder": 1,
-            "label": "Launch Cap",
             "statType": "numeric",
-            "tracked": true,
             "value": 0,
-            "visibility": "normal"
+            "visibility": "hidden"
           },
           "Class": {
             "group": "Ship Stats",
-            "groupOrder": 2,
+            "groupOrder": 10,
             "statType": "term",
             "value": null,
             "visibility": "normal"
@@ -238,7 +397,7 @@
           },
           "G": {
             "group": "Ship Stats",
-            "groupOrder": 2,
+            "groupOrder": 10,
             "ranks": {
               "1": {
                 "order": 0,
@@ -297,44 +456,22 @@
           },
           "Hull": {
             "group": "Ship Stats",
-            "groupOrder": 2,
+            "groupOrder": 10,
             "statOrder": 5,
             "statType": "numeric",
             "value": 0,
             "visibility": "normal"
           },
-          "Launch Type": {
-            "group": "Launch",
-            "groupOrder": 1,
-            "ranks": {
-              "Dropship": {
-                "order": 0
-              },
-              "Bulk Lander": {
-                "order": 1
-              },
-              "Fighters and Bombers": {
-                "order": 2
-              },
-              "Torpedoes": {
-                "order": 3
-              }
-            },
-            "statType": "rank",
-            "value": null,
-            "visibility": "normal"
-          },
           "Number of Ships": {
             "dynamic": true,
-            "group": "Points",
-            "statOrder": 1,
             "statType": "rank",
+            "tracked": true,
             "value": null,
             "visibility": "normal"
           },
           "PD": {
             "group": "Ship Stats",
-            "groupOrder": 2,
+            "groupOrder": 10,
             "statOrder": 7,
             "statType": "numeric",
             "value": null,
@@ -342,28 +479,38 @@
           },
           "Scan": {
             "group": "Ship Stats",
-            "groupOrder": 2,
+            "groupOrder": 10,
             "statType": "numeric",
             "value": 0,
             "visibility": "normal"
           },
           "Sig": {
             "group": "Ship Stats",
-            "groupOrder": 2,
+            "groupOrder": 10,
             "statType": "numeric",
             "value": 0,
             "visibility": "normal"
           },
+          "SingleAssetCount": {
+            "group": "Launch",
+            "groupOrder": 1,
+            "label": "Launch Capacity",
+            "statType": "numeric",
+            "tracked": true,
+            "value": null,
+            "visibility": "hidden"
+          },
           "Special": {
-            "group": "Other",
-            "groupOrder": 3,
+            "group": "Ship Special",
+            "groupOrder": 11,
+            "statOrder": 11,
             "statType": "term",
             "value": null,
             "visibility": "normal"
           },
           "T": {
             "group": "Ship Stats",
-            "groupOrder": 2,
+            "groupOrder": 10,
             "ranks": {
               "L": {
                 "order": 0,
@@ -410,7 +557,7 @@
           },
           "Thrust": {
             "group": "Ship Stats",
-            "groupOrder": 2,
+            "groupOrder": 10,
             "statOrder": 4,
             "statType": "numeric",
             "value": 0,
@@ -660,8 +807,26 @@
             "failState": "pass"
           }
         },
+        "stats": {
+          "Admiral": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 1,
+                "term": "1",
+                "tracking": {}
+              }
+            }
+          },
+          "Number of Ships": {
+            "dynamic": false,
+            "statType": "numeric",
+            "value": 1
+          }
+        },
         "templateClass": "Group"
       },
+      "Launch Assets": {},
       "Light": {
         "allowed": {
           "items": []
@@ -702,6 +867,15 @@
             "value": "2+"
           },
           "Admiral": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 1,
+                "term": "1",
+                "text": "1",
+                "tracking": {}
+              }
+            },
             "visibility": "hidden"
           },
           "Class": {
@@ -735,16 +909,16 @@
             "statType": "rank",
             "value": null
           },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 0
+              }
+            }
+          },
           "T": {
             "value": "L"
-          }
-        },
-        "templateClass": "Group"
-      },
-      "Light2": {
-        "stats": {
-          "Admiral": {
-            "visibility": "hidden"
           }
         },
         "templateClass": "Group"
@@ -760,6 +934,21 @@
               }
             },
             "value": "0"
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "1",
+                "number": 1,
+                "order": 0
+              },
+              "2": {
+                "format": "2",
+                "number": 2,
+                "order": 1
+              }
+            },
+            "value": "1"
           }
         },
         "templateClass": "Group"
@@ -1057,6 +1246,22 @@
             "failState": "pass"
           }
         },
+        "stats": {
+          "Admiral": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 1,
+                "term": "1",
+                "tracking": {}
+              }
+            }
+          },
+          "Number of Ships": {
+            "statType": "numeric",
+            "value": 1
+          }
+        },
         "templateClass": "Group"
       },
       "SuperHeavy2": {
@@ -1292,6 +1497,31 @@
             "failState": "pass"
           }
         },
+        "stats": {
+          "Admiral": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 1,
+                "term": "1",
+                "tracking": {
+                  "AdmiralSH": 1
+                }
+              }
+            }
+          },
+          "Dreadnought": {
+            "statType": "numeric",
+            "tracked": true,
+            "value": 1,
+            "visibility": "hidden"
+          },
+          "Number of Ships": {
+            "dynamic": false,
+            "statType": "numeric",
+            "value": 1
+          }
+        },
         "templateClass": "Group"
       }
     },
@@ -1300,7 +1530,6 @@
         "allowed": {
           "classifications": [
             "Light",
-            "Light2",
             "SuperHeavy",
             "SuperHeavy2"
           ],
@@ -1367,6 +1596,33 @@
             "evaluate": "AND",
             "failState": "pass"
           },
+          "If Dreadnought in Battlegroup, no other ships allowed.": {
+            "evals": [
+              {
+                "actionable": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": [
+                    "{self}",
+                    "tally",
+                    "Group"
+                  ]
+                },
+                "max": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Dreadnought"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
           "Maximum of 2 Groups": {
             "evals": [
               {
@@ -1386,6 +1642,27 @@
             "evaluate": "AND",
             "failState": "error"
           },
+          "Maximum of 33% of point cap can be spent on a single Battlegroup, or 50% if playing Skirmish": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{roster}",
+                  "tracked",
+                  "Maxgrouppts"
+                ],
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ]
+              }
+            ]
+          },
           "No Groups in Battlegroup": {
             "evals": [
               {
@@ -1404,12 +1681,40 @@
             ],
             "evaluate": "AND",
             "failState": "error"
+          },
+          "totalgroups": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "groupCount",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "tally",
+                  "Group"
+                ]
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
           }
         },
         "stats": {
           "Battlegroup Type": {
             "dynamic": false,
             "value": "Flagship"
+          },
+          "groupCount": {
+            "statType": "numeric",
+            "value": 0
           }
         }
       },
@@ -1417,8 +1722,7 @@
         "allowed": {
           "classifications": [
             "Light",
-            "Medium",
-            "Light2"
+            "Medium"
           ],
           "items": []
         },
@@ -1557,6 +1861,31 @@
             "evaluate": "AND",
             "failState": "error"
           },
+          "Maximum of 33% of point cap can be spent on a single Battlegroup, or 50% if playing Skirmish": {
+            "evals": [
+              {
+                "actionable": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": 3
+                },
+                "max": [
+                  "{roster}",
+                  "tracked",
+                  "Max Points"
+                ],
+                "not": false,
+                "operator": "SUM",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ]
+              }
+            ]
+          },
           "No Groups in Battlegroup": {
             "evals": [
               {
@@ -1575,9 +1904,6 @@
             ],
             "evaluate": "AND",
             "failState": "error"
-          },
-          "strategy rating": {
-            "evals": []
           }
         },
         "stats": {
@@ -1592,7 +1918,6 @@
         "allowed": {
           "classifications": [
             "Light",
-            "Light2",
             "Medium"
           ],
           "items": []
@@ -1731,8 +2056,7 @@
           "classifications": [
             "Light",
             "Heavy",
-            "Medium",
-            "Light2"
+            "Medium"
           ],
           "items": []
         },
@@ -2287,11 +2611,1816 @@
           }
         }
       },
-      "Heavy§test admiral": {
+      "Heavy§Akuma Battlecruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beam Array",
+            "Scourge Weapons§Oculus Beam Phalanx L",
+            "Scourge Weapons§Oculus Beam Phalanx R",
+            "Close-Action Weapons§Plasma Storm"
+          ]
+        },
         "keywords": {
           "Tags": [
             "Scourge"
           ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Akuma"
+          },
+          "cost": {
+            "value": 215
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 14
+          },
+          "PD": {
+            "value": 8
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "Special": {
+            "value": "Full Cloak, Stealth"
+          },
+          "T": {
+            "value": "H"
+          },
+          "Thrust": {
+            "value": 10
+          }
+        }
+      },
+      "Heavy§Banshee Battlecruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beam Array",
+            "Close-Action Weapons§Plasma Tempest",
+            "Launch Assets§Scourge Torpedo"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Banshee"
+          },
+          "cost": {
+            "value": 180
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 14
+          },
+          "Launch Type": {
+            "value": "Torpedoes"
+          },
+          "PD": {
+            "value": 8
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "SingleAssetCount": {
+            "value": 1
+          },
+          "Special": {
+            "value": "Full Cloak, Launch, Stealth"
+          },
+          "T": {
+            "value": "H"
+          },
+          "Thrust": {
+            "value": 10
+          }
+        }
+      },
+      "Heavy§Basilisk Battlecruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beam Array",
+            "Scourge Weapons§Oculus Beam Phalanx L",
+            "Scourge Weapons§Oculus Beam Phalanx R",
+            "Close-Action Weapons§Plasma Storm"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Basilisk"
+          },
+          "cost": {
+            "value": 215
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 14
+          },
+          "PD": {
+            "value": 8
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "Special": {
+            "value": "Full Cloak, Stealth"
+          },
+          "T": {
+            "value": "H"
+          },
+          "Thrust": {
+            "value": 10
+          }
+        },
+        "text": "**Counts As**  \nThis ship counts as an Akuma Battlecruiser."
+      },
+      "Heavy§Kulshedra Vilestar Carrier": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beams",
+            "Close-Action Weapons§Plasma Tempest",
+            "Launch Assets§Scourge Fighters and Bombers"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Kulshedra"
+          },
+          "cost": {
+            "value": 175
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 12
+          },
+          "Launch Type": {
+            "value": "Fighters and Bombers"
+          },
+          "Number of Ships": {
+            "statType": "numeric",
+            "value": 1
+          },
+          "PD": {
+            "value": 6
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "SingleAssetCount": {
+            "value": 5
+          },
+          "Special": {
+            "value": "Launch"
+          },
+          "T": {
+            "value": "H"
+          },
+          "Thrust": {
+            "value": 8
+          }
+        }
+      },
+      "Heavy§Manticore Battlecruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beam Array",
+            "Close-Action Weapons§Plasma Tempest",
+            "Launch Assets§Scourge Torpedo"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Manticore"
+          },
+          "cost": {
+            "value": 180
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 14
+          },
+          "Launch Type": {
+            "value": "Torpedoes"
+          },
+          "PD": {
+            "value": 8
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "SingleAssetCount": {
+            "value": 1
+          },
+          "Special": {
+            "value": "Full Cloak, Launch, Stealth"
+          },
+          "T": {
+            "value": "H"
+          },
+          "Thrust": {
+            "value": 10
+          }
+        },
+        "text": "**Counts As:**  \nThis ship counts as a Banshee Battlecruiser."
+      },
+      "Heavy§Raiju Heavy Cruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beam Array",
+            "Scourge Weapons§Furnace Cannons",
+            "Close-Action Weapons§Plasma Storm"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Raiju"
+          },
+          "cost": {
+            "value": 150
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 12
+          },
+          "Number of Ships": {
+            "statType": "numeric",
+            "value": 1
+          },
+          "PD": {
+            "value": 6
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "Special": {
+            "value": "Partial Cloak, Stealth"
+          },
+          "T": {
+            "value": "H"
+          },
+          "Thrust": {
+            "value": 8
+          }
+        }
+      },
+      "Heavy§Shadow Battlecruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Magnetron Lash",
+            "Scourge Weapons§Oculus Beam Array",
+            "Close-Action Weapons§Plasma Tempest",
+            "Launch Assets§Scourge Fighters and Bombers"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Shadow"
+          },
+          "cost": {
+            "value": 195
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 14
+          },
+          "Launch Type": {
+            "value": "Fighters and Bombers"
+          },
+          "PD": {
+            "value": 8
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "SingleAssetCount": {
+            "value": 4
+          },
+          "Special": {
+            "value": "Launch"
+          },
+          "T": {
+            "value": "H"
+          },
+          "Thrust": {
+            "value": 10
+          }
+        }
+      },
+      "Heavy§Shenlong Heavy Cruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beam Array",
+            "Scourge Weapons§Oculus Beam Array L",
+            "Scourge Weapons§Oculus Beam Array R",
+            "Close-Action Weapons§Plasma Storm"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Shenlong"
+          },
+          "cost": {
+            "value": 160
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 12
+          },
+          "PD": {
+            "value": 6
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "Special": {
+            "value": "Partial Cloak, Stealth"
+          },
+          "T": {
+            "value": "H"
+          },
+          "Thrust": {
+            "value": 8
+          }
+        }
+      },
+      "Heavy§Umbra Battlecruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beam Array",
+            "Close-Action Weapons§Plasma Tempest",
+            "Launch Assets§Scourge Fighters and Bombers"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Umbra"
+          },
+          "cost": {
+            "value": 195
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 14
+          },
+          "Launch Type": {
+            "value": "Fighters and Bombers"
+          },
+          "PD": {
+            "value": 8
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "SingleAssetCount": {
+            "value": 4
+          },
+          "Special": {
+            "value": "Launch"
+          },
+          "T": {
+            "value": "H"
+          },
+          "Thrust": {
+            "value": 10
+          }
+        },
+        "text": "**Oculus Booster:**  \nWhen this ship is given Standard Orders, until the start of its next activation, other friendly ship’s weapons with “Oculus” in their name increase their Scald penalty to +3 instead of +1 when firing at ships in any orbital layer within 12” in ship’s Front Arc."
+      },
+      "Launch Assets§Bulk Landers": {
+        "keywords": {
+          "Tags": [
+            "Troopships"
+          ]
+        },
+        "rules": {
+          "TotalLaunch": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Launch cap",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{parent}",
+                  "tracked",
+                  "SingleAssetCount"
+                ]
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "Ground Assets": {
+            "group": "Dropship Contents",
+            "groupOrder": 2,
+            "statOrder": 2,
+            "statType": "term",
+            "value": "3x Infantry or 1x Defence Battery",
+            "visibility": "normal"
+          },
+          "Launch cap": {
+            "group": "Launch",
+            "groupOrder": 1,
+            "label": "Launch",
+            "statOrder": 0,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Dropship Info",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 6,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§Dropships": {
+        "keywords": {
+          "Tags": [
+            "Troopships"
+          ]
+        },
+        "rules": {
+          "TotalLaunch": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Launch cap",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{parent}",
+                  "tracked",
+                  "SingleAssetCount"
+                ]
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "Ground Assets": {
+            "group": "Dropship Contents",
+            "groupOrder": 3,
+            "statOrder": 2,
+            "statType": "term",
+            "value": "1x Infantry or 1x Armour",
+            "visibility": "normal"
+          },
+          "Launch cap": {
+            "group": "Launch",
+            "groupOrder": 1,
+            "label": "Launch",
+            "statOrder": 0,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Dropship Info",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 3,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§PHR Dreadnought Torpedos": {
+        "keywords": {
+          "Tags": [
+            "Torpedo"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "group": "Torpedo Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 4,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Torpedo Stats",
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 2,
+            "visibility": "normal"
+          },
+          "Launch": {
+            "group": "Torpedo Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 4,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Torpedo Stats",
+            "ranks": {
+              "0": {
+                "format": "2+",
+                "order": 0
+              },
+              "1": {
+                "format": "3+",
+                "order": 1
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "0",
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Torpedo Stats",
+            "statOrder": 5,
+            "statType": "term",
+            "value": "L(4)*",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Torpedo Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 9,
+            "visibility": "normal"
+          }
+        },
+        "text": "**Apocalypse Cannon (all barrels)**  \nWhen you Overcharge these weapons, if this ship is on the Weapons Free Special Order, they triple their damage instead of doubling their damage.  \n  \n*The Remus is Limited to 4 Torpedoes total, and may fire all of them in one round"
+      },
+      "Launch Assets§PHR Fighters": {
+        "keywords": {
+          "Tags": [
+            "Fighters"
+          ]
+        },
+        "stats": {
+          "PD Bonus": {
+            "group": "Fighter Stats",
+            "ranks": {
+              "0": {
+                "format": "+3",
+                "order": 0
+              },
+              "1": {
+                "format": "+4",
+                "order": 1
+              },
+              "2": {
+                "format": "+5",
+                "order": 2
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "1",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Fighter Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 20,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§PHR Fighters and Bombers": {
+        "keywords": {
+          "Tags": [
+            "Fighters and Bombers"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "group": "Bomber Stats",
+            "groupOrder": 3,
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 2,
+            "visibility": "normal"
+          },
+          "Bomber Thrust": {
+            "group": "Bomber Stats",
+            "groupOrder": 3,
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 12,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Bomber Stats",
+            "groupOrder": 3,
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 1,
+            "visibility": "normal"
+          },
+          "Fighter Thrust": {
+            "group": "Fighter-Stats",
+            "groupOrder": 2,
+            "statType": "numeric",
+            "value": 20,
+            "visibility": "normal"
+          },
+          "Launch cap": {
+            "label": "Launch",
+            "statOrder": 1,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Bomber Stats",
+            "groupOrder": 3,
+            "ranks": {
+              "0": {
+                "format": "2+",
+                "order": 0
+              },
+              "1": {
+                "format": "3+",
+                "order": 1
+              },
+              "2": {
+                "format": "4+",
+                "order": 2
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": 0,
+            "visibility": "normal"
+          },
+          "PD Bonus": {
+            "group": "Fighter-Stats",
+            "groupOrder": 2,
+            "statOrder": 2,
+            "statType": "numeric",
+            "value": 4,
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Bomber Stats",
+            "groupOrder": 3,
+            "statOrder": 5,
+            "statType": "term",
+            "value": "-",
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§PHR Torpedo": {
+        "keywords": {
+          "Tags": [
+            "Torpedo"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "group": "Torpedo Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 4,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Torpedo Stats",
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 2,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Torpedo Stats",
+            "ranks": {
+              "0": {
+                "format": "2+",
+                "order": 0
+              },
+              "1": {
+                "format": "3+",
+                "order": 1
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "0",
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Torpedo Stats",
+            "statOrder": 5,
+            "statType": "term",
+            "value": "-",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Torpedo Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 9,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§Resistance Bombers": {
+        "keywords": {
+          "Tags": [
+            "Bombers"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "group": "Launch Asset Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 3,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Launch Asset Stats",
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 1,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Launch Asset Stats",
+            "ranks": {
+              "0": {
+                "format": "2+",
+                "order": 0
+              },
+              "1": {
+                "format": "3+",
+                "order": 1
+              },
+              "2": {
+                "format": "4+",
+                "order": 2
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "2",
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Launch Asset Stats",
+            "statOrder": 5,
+            "statType": "term",
+            "value": "-",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Launch Asset Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 12,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§Resistance Fighters": {
+        "keywords": {
+          "Tags": [
+            "Fighters"
+          ]
+        },
+        "stats": {
+          "PD Bonus": {
+            "group": "Fighter Stats",
+            "ranks": {
+              "0": {
+                "format": "+3",
+                "order": 0
+              },
+              "1": {
+                "format": "+4",
+                "order": 1
+              },
+              "2": {
+                "format": "+5",
+                "order": 2
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "2",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Fighter Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 20,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§Resistance Fire Ships": {
+        "keywords": {
+          "Tags": [
+            "Bombers"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "group": "Launch Asset Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 1,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Launch Asset Stats",
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 3,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Launch Asset Stats",
+            "ranks": {
+              "0": {
+                "format": "2+",
+                "order": 0
+              },
+              "1": {
+                "format": "3+",
+                "order": 1
+              },
+              "2": {
+                "format": "4+",
+                "order": 2
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "0",
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Launch Asset Stats",
+            "statOrder": 5,
+            "statType": "term",
+            "value": "May Not Double Thrust",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Launch Asset Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 6,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§Resistance Torpedo": {
+        "keywords": {
+          "Tags": [
+            "Torpedo"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "group": "Torpedo Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 6,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Torpedo Stats",
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 1,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Torpedo Stats",
+            "ranks": {
+              "0": {
+                "format": "2+",
+                "order": 0
+              },
+              "1": {
+                "format": "3+",
+                "order": 1
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "0",
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Torpedo Stats",
+            "statOrder": 5,
+            "statType": "term",
+            "value": "-",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Torpedo Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 12,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§Scourge Fighters and Bombers": {
+        "keywords": {
+          "Tags": [
+            "Fighters and Bombers"
+          ]
+        },
+        "rules": {
+          "LaunchTotal": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Launch cap",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{parent}",
+                  "tracked",
+                  "SingleAssetCount"
+                ]
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "Attack": {
+            "group": "Bomber-Stats",
+            "groupOrder": 3,
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 2,
+            "visibility": "normal"
+          },
+          "Bomber Thrust": {
+            "group": "Bomber-Stats",
+            "groupOrder": 3,
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 15,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Bomber-Stats",
+            "groupOrder": 3,
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 1,
+            "visibility": "normal"
+          },
+          "Fighter Thrust": {
+            "group": "Fighter Stats",
+            "groupOrder": 2,
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 24,
+            "visibility": "normal"
+          },
+          "Launch cap": {
+            "group": "Launch",
+            "groupOrder": 1,
+            "label": "Launch",
+            "statOrder": 0,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Bomber-Stats",
+            "groupOrder": 3,
+            "statOrder": 2,
+            "statType": "numeric",
+            "value": 3,
+            "visibility": "normal"
+          },
+          "PD Bonus": {
+            "group": "Fighter Stats",
+            "groupOrder": 2,
+            "ranks": {
+              "0": {
+                "format": "+3",
+                "order": 0
+              },
+              "1": {
+                "format": "+4",
+                "order": 1
+              },
+              "2": {
+                "format": "+5",
+                "order": 2
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "0",
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Bomber-Stats",
+            "groupOrder": 3,
+            "statOrder": 5,
+            "statType": "term",
+            "value": "Scald",
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§Scourge Torpedo": {
+        "keywords": {
+          "Tags": [
+            "Torpedo"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "group": "Torpedo Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 3,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Torpedo Stats",
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 2,
+            "visibility": "normal"
+          },
+          "Launch": {
+            "group": "Torpedo Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 1,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Torpedo Stats",
+            "ranks": {
+              "0": {
+                "format": "2+",
+                "order": 0
+              },
+              "1": {
+                "format": "3+",
+                "order": 1
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "1",
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Torpedo Stats",
+            "statOrder": 5,
+            "statType": "term",
+            "value": "Corruptor, L2",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Torpedo Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 9,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§Shaltari Bombers": {
+        "keywords": {
+          "Tags": [
+            "Bombers"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "group": "Launch Asset Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 2,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Launch Asset Stats",
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 1,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Launch Asset Stats",
+            "ranks": {
+              "0": {
+                "format": "2+",
+                "order": 0
+              },
+              "1": {
+                "format": "3+",
+                "order": 1
+              },
+              "2": {
+                "format": "4+",
+                "order": 2
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "1",
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Launch Asset Stats",
+            "statOrder": 5,
+            "statType": "term",
+            "value": "-",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Launch Asset Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 15,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§Shaltari Fighters": {
+        "keywords": {
+          "Tags": [
+            "Fighters"
+          ]
+        },
+        "stats": {
+          "PD Bonus": {
+            "group": "Fighter Stats",
+            "ranks": {
+              "0": {
+                "format": "+3",
+                "order": 0
+              },
+              "1": {
+                "format": "+4",
+                "order": 1
+              },
+              "2": {
+                "format": "+5",
+                "order": 2
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "1",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Fighter Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 24,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§Shaltari Torpedo": {
+        "keywords": {
+          "Tags": [
+            "Torpedo"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "group": "Torpedo Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 3,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Torpedo Stats",
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 2,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Torpedo Stats",
+            "ranks": {
+              "0": {
+                "format": "2+",
+                "order": 0
+              },
+              "1": {
+                "format": "3+",
+                "order": 1
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "1",
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Torpedo Stats",
+            "statOrder": 5,
+            "statType": "term",
+            "value": "Flash",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Torpedo Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 12,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§UCM Bombers": {
+        "keywords": {
+          "Tags": [
+            "Bombers"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "group": "Launch Asset Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 2,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Launch Asset Stats",
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 1,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Launch Asset Stats",
+            "ranks": {
+              "0": {
+                "format": "2+",
+                "order": 0
+              },
+              "1": {
+                "format": "3+",
+                "order": 1
+              },
+              "2": {
+                "format": "4+",
+                "order": 2
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "1",
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Launch Asset Stats",
+            "statOrder": 5,
+            "statType": "term",
+            "value": "-",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Launch Asset Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 12,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§UCM Fighters": {
+        "keywords": {
+          "Tags": [
+            "Fighters"
+          ]
+        },
+        "stats": {
+          "PD Bonus": {
+            "group": "Fighter Stats",
+            "ranks": {
+              "0": {
+                "format": "+3",
+                "order": 0
+              },
+              "1": {
+                "format": "+4",
+                "order": 1
+              },
+              "2": {
+                "format": "+5",
+                "order": 2
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "0",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Fighter Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 20,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§UCM Heavy Torpedo": {
+        "keywords": {
+          "Tags": [
+            "Torpedo"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "group": "Torpedo Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 4,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Torpedo Stats",
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 4,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Torpedo Stats",
+            "ranks": {
+              "0": {
+                "format": "2+",
+                "order": 0
+              },
+              "1": {
+                "format": "3+",
+                "order": 1
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "0",
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Torpedo Stats",
+            "statOrder": 5,
+            "statType": "term",
+            "value": "-",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Torpedo Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 9,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§UCM Light Torpedo": {
+        "keywords": {
+          "Tags": [
+            "Torpedo"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "group": "Torpedo Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 4,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Torpedo Stats",
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 1,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Torpedo Stats",
+            "ranks": {
+              "0": {
+                "format": "2+",
+                "order": 0
+              },
+              "1": {
+                "format": "3+",
+                "order": 1
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "0",
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Torpedo Stats",
+            "statOrder": 5,
+            "statType": "term",
+            "value": "-",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Torpedo Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 14,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Launch Assets§UCM Torpedo": {
+        "keywords": {
+          "Tags": [
+            "Torpedo"
+          ]
+        },
+        "stats": {
+          "Attack": {
+            "group": "Torpedo Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 4,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Torpedo Stats",
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 2,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Torpedo Stats",
+            "ranks": {
+              "0": {
+                "format": "2+",
+                "order": 0
+              },
+              "1": {
+                "format": "3+",
+                "order": 1
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "0",
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Torpedo Stats",
+            "statOrder": 5,
+            "statType": "term",
+            "value": "-",
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Torpedo Stats",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": 9,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Light§Charybdis Frigate": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Rays",
+            "Scourge Weapons§Plasma Bombs",
+            "Close-Action Weapons§Plasma Cloud"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "5+"
+          },
+          "Class": {
+            "value": "Charybdis"
+          },
+          "cost": {
+            "value": 35
+          },
+          "G": {
+            "value": "2-4"
+          },
+          "Hull": {
+            "value": 4
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "2",
+                "number": 2,
+                "order": 0,
+                "tracking": {
+                  "Strategy Rating": 0,
+                  "totalCost": 0
+                }
+              },
+              "2": {
+                "format": "3",
+                "number": 3,
+                "order": 1,
+                "tracking": {
+                  "Strategy Rating": 1,
+                  "totalCost": 0
+                }
+              },
+              "3": {
+                "format": "4",
+                "number": 4,
+                "order": 2,
+                "tracking": {
+                  "Strategy Rating": 1,
+                  "totalCost": 0
+                }
+              }
+            },
+            "value": "1"
+          },
+          "PD": {
+            "value": 4
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 3
+          },
+          "Special": {
+            "value": "Atmospheric"
+          },
+          "Thrust": {
+            "value": 12
+          }
+        }
+      },
+      "Light§Djinn Frigate": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Rays",
+            "Close-Action Weapons§Plasma Storm"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "5+"
+          },
+          "Class": {
+            "value": "Djinn"
+          },
+          "cost": {
+            "value": 43
+          },
+          "G": {
+            "ranks": {
+              "2-6": {
+                "order": 7
+              }
+            },
+            "value": "2-6"
+          },
+          "Hull": {
+            "value": 4
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "2",
+                "number": 2,
+                "order": 0,
+                "tracking": {
+                  "Strategy Rating": 0,
+                  "totalCost": 0
+                }
+              },
+              "2": {
+                "format": "3",
+                "number": 3,
+                "order": 1,
+                "tracking": {
+                  "Strategy Rating": 1,
+                  "totalCost": 0
+                }
+              },
+              "3": {
+                "format": "4",
+                "number": 4,
+                "order": 2,
+                "tracking": {
+                  "Strategy Rating": 1,
+                  "totalCost": 0
+                }
+              },
+              "4": {
+                "format": "5",
+                "number": 5,
+                "order": 3,
+                "tracking": {
+                  "Strategy Rating": 1,
+                  "totalCost": 0
+                }
+              },
+              "5": {
+                "format": "6",
+                "number": 6,
+                "order": 4,
+                "tracking": {
+                  "Strategy Rating": 1,
+                  "totalCost": 0
+                }
+              }
+            },
+            "value": "1"
+          },
+          "PD": {
+            "value": 4
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 3
+          },
+          "Special": {
+            "value": "Atmospheric"
+          },
+          "Thrust": {
+            "value": 12
+          }
         }
       },
       "Light§Gargoyle Strike Carrier": {
@@ -2300,6 +4429,7 @@
         },
         "assets": {
           "traits": [
+            "Scourge Weapons§Oculus Rays",
             "Close-Action Weapons§Plasma Cloud"
           ]
         },
@@ -2324,7 +4454,7 @@
             "value": 32
           },
           "G": {
-            "value": "2-4"
+            "value": "1-2"
           },
           "Hull": {
             "value": 4
@@ -2334,32 +4464,20 @@
           },
           "Number of Ships": {
             "ranks": {
-              "2": {
+              "1": {
+                "format": "1",
+                "number": 1,
                 "order": 0,
-                "tracking": {
-                  "assetCount": 1,
-                  "Strategy Rating": 1,
-                  "totalCost": 64
-                }
+                "tracking": {}
               },
-              "3": {
+              "2": {
+                "format": "2",
+                "number": 2,
                 "order": 1,
-                "tracking": {
-                  "assetCount": 2,
-                  "Strategy Rating": 2,
-                  "totalCost": 96
-                }
-              },
-              "4": {
-                "order": 2,
-                "tracking": {
-                  "assetCount": 3,
-                  "Strategy Rating": 3,
-                  "totalCost": 128
-                }
+                "tracking": {}
               }
             },
-            "value": "2"
+            "value": "1"
           },
           "PD": {
             "value": 4
@@ -2369,6 +4487,9 @@
           },
           "Sig": {
             "value": 3
+          },
+          "SingleAssetCount": {
+            "value": 1
           },
           "Special": {
             "value": "Atmospheric, Launch, Open"
@@ -2388,8 +4509,8 @@
         },
         "assets": {
           "traits": [
-            "Close-Action Weapons§Plasma Cloud",
-            "Scourge Weapons§Oculus beams"
+            "Scourge Weapons§Oculus beams",
+            "Close-Action Weapons§Plasma Cloud"
           ]
         },
         "keywords": {
@@ -2415,29 +4536,26 @@
           },
           "Number of Ships": {
             "ranks": {
-              "2": {
+              "1": {
+                "format": "2",
+                "number": 2,
                 "order": 0,
-                "tracking": {
-                  "Strategy Rating": 1,
-                  "totalCost": 78
-                }
+                "tracking": {}
+              },
+              "2": {
+                "format": "3",
+                "number": 3,
+                "order": 1,
+                "tracking": {}
               },
               "3": {
-                "order": 1,
-                "tracking": {
-                  "Strategy Rating": 2,
-                  "totalCost": 117
-                }
-              },
-              "4": {
+                "format": "4",
+                "number": 4,
                 "order": 2,
-                "tracking": {
-                  "Strategy Rating": 3,
-                  "totalCost": 156
-                }
+                "tracking": {}
               }
             },
-            "value": "2"
+            "value": "1"
           },
           "PD": {
             "value": 4
@@ -2453,6 +4571,320 @@
           },
           "Thrust": {
             "value": 12
+          }
+        }
+      },
+      "Light§Hiruko Boarding Cutter": {
+        "assets": {
+          "traits": [
+            "Close-Action Weapons§Plasma Torch"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "6+"
+          },
+          "Class": {
+            "value": "Hiruko"
+          },
+          "cost": {
+            "value": 18
+          },
+          "G": {
+            "value": "1-3"
+          },
+          "Hull": {
+            "value": 2
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 0,
+                "tracking": {}
+              },
+              "2": {
+                "number": 2,
+                "order": 1,
+                "tracking": {}
+              },
+              "3": {
+                "number": 3,
+                "order": 2,
+                "tracking": {}
+              }
+            },
+            "value": "1"
+          },
+          "PD": {
+            "value": 1
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 2
+          },
+          "Special": {
+            "value": "Outlier"
+          },
+          "Thrust": {
+            "value": 14
+          }
+        },
+        "text": "**Ramming Ship:**\nIf this ship ends its activation within 3” of an enemy ship, it may attempt to ram it. That ship takes 2 lock 3+ hits with the Corruptor special rule and this ship is removed from play."
+      },
+      "Light§Incubus Destroyer": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Rays",
+            "Scourge Weapons§Furnace Blaster",
+            "Close-Action Weapons§Plasma squall"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "rules": {
+          "Cloaked": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "cost",
+                    "value"
+                  ]
+                ],
+                "value": 5
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "cloaked"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 1
+          },
+          "groupCost": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "totalCost",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "rules",
+                  "groupCost",
+                  "evals",
+                  "0",
+                  "result",
+                  "integer"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": false,
+                "contains": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": [
+                    "{self}",
+                    "tracked",
+                    "Number of Ships"
+                  ]
+                },
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "cost",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "assetCount": {
+            "value": 2
+          },
+          "Class": {
+            "value": "Succubus"
+          },
+          "Cloaking Crest": {
+            "dynamic": true,
+            "group": "Other",
+            "ranks": {
+              "0": {
+                "order": 0
+              },
+              "1": {
+                "order": 1,
+                "tracking": {
+                  "cloaked": 0
+                }
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "tracked": true,
+            "value": "0",
+            "visibility": "normal"
+          },
+          "cost": {
+            "value": 55
+          },
+          "G": {
+            "value": "2-3"
+          },
+          "Hull": {
+            "value": 6
+          },
+          "Launch Type": {},
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "2",
+                "number": 2,
+                "order": 0,
+                "tracking": {}
+              },
+              "2": {
+                "format": "3",
+                "number": 3,
+                "order": 1,
+                "tracking": {}
+              }
+            },
+            "value": "2"
+          },
+          "PD": {
+            "value": 4
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 5
+          },
+          "SingleAssetCount": {},
+          "Special": {
+            "value": "-"
+          },
+          "T": {
+            "value": "L2"
+          },
+          "Thrust": {
+            "value": 10
+          },
+          "totalCost": {
+            "value": null
+          }
+        },
+        "text": "**Cloaking Crest**  \nThis ship may take a Cloaking Crest for +5pts and gains Stealth and Partial Cloak"
+      },
+      "Light§Lamassu Barge": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Rays",
+            "Scourge Weapons§Plasma Bombs (Lamassu)",
+            "Close-Action Weapons§Plasma Cloud",
+            "Launch Assets§Bulk Landers"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "3+"
+          },
+          "Class": {
+            "value": "Lamassu"
+          },
+          "cost": {
+            "value": 45
+          },
+          "G": {
+            "value": "1-3"
+          },
+          "Hull": {
+            "value": 4
+          },
+          "Launch Type": {
+            "value": "Bulk Lander"
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 0,
+                "tracking": {}
+              },
+              "2": {
+                "number": 2,
+                "order": 1,
+                "tracking": {}
+              },
+              "3": {
+                "number": 3,
+                "order": 2,
+                "tracking": {}
+              }
+            },
+            "value": "1"
+          },
+          "PD": {
+            "value": 4
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 5
+          },
+          "Thrust": {
+            "value": 6
           }
         }
       },
@@ -2495,24 +4927,22 @@
           },
           "Number of Ships": {
             "ranks": {
+              "1": {
+                "format": "1",
+                "number": 1,
+                "order": 0,
+                "term": "1",
+                "tracking": {}
+              },
               "2": {
                 "format": "2",
+                "number": 2,
                 "order": 1,
-                "prepend": true,
-                "tracking": {
-                  "Strategy Rating": 1,
-                  "totalCost": 78
-                }
-              },
-              "one": {
-                "format": "1",
-                "order": 0,
-                "tracking": {
-                  "totalCost": 39
-                }
+                "term": "2",
+                "tracking": {}
               }
             },
-            "value": "one"
+            "value": "1"
           },
           "PD": {
             "value": 3
@@ -2611,26 +5041,23 @@
           },
           "Number of Ships": {
             "ranks": {
-              "2": {
-                "format": "2",
-                "order": 1,
-                "prepend": true,
-                "tracking": {
-                  "assetCount": 1,
-                  "Strategy Rating": 1,
-                  "totalCost": 64
-                }
-              },
-              "one": {
+              "1": {
                 "format": "1",
+                "number": 1,
                 "order": 0,
                 "term": "1",
+                "tracking": {}
+              },
+              "2": {
+                "format": "2",
+                "number": 2,
+                "order": 1,
                 "tracking": {
-                  "totalCost": 32
+                  "assetCount": 1
                 }
               }
             },
-            "value": "one"
+            "value": "1"
           },
           "PD": {
             "value": 3
@@ -2649,6 +5076,895 @@
           }
         },
         "text": ""
+      },
+      "Light§Nickar Hunter Killer": {
+        "assets": {
+          "traits": [
+            "Close-Action Weapons§Plasma Squall"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "6+"
+          },
+          "Class": {
+            "value": "Nickar"
+          },
+          "cost": {
+            "value": 22
+          },
+          "G": {
+            "value": "1-3"
+          },
+          "Hull": {
+            "value": 2
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 0,
+                "tracking": {}
+              },
+              "2": {
+                "number": 2,
+                "order": 1,
+                "tracking": {}
+              },
+              "3": {
+                "number": 3,
+                "order": 2,
+                "tracking": {}
+              }
+            },
+            "value": "1"
+          },
+          "PD": {
+            "value": 2
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 2
+          },
+          "Special": {
+            "value": "Atmospheric"
+          },
+          "Thrust": {
+            "value": 16
+          }
+        }
+      },
+      "Light§Parasite Radiation Leech": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Rays"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "5+"
+          },
+          "Class": {
+            "value": "Parasite"
+          },
+          "cost": {
+            "value": 55
+          },
+          "G": {
+            "value": "1-3"
+          },
+          "Hull": {
+            "value": 6
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 0,
+                "tracking": {}
+              },
+              "2": {
+                "number": 2,
+                "order": 1,
+                "tracking": {}
+              },
+              "3": {
+                "number": 3,
+                "order": 2,
+                "tracking": {}
+              }
+            },
+            "value": "1"
+          },
+          "PD": {
+            "value": 2
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 6
+          },
+          "Special": {
+            "value": "Outlier, Rare, Vectored"
+          },
+          "T": {
+            "value": "L2"
+          },
+          "Thrust": {
+            "value": 16
+          }
+        },
+        "text": "**Energy Siphon:**\nDuring this ship’s activation, either before or after movement, pick one friendly or enemy ship within 3” without the Energy Siphon special rule to siphon. That ship loses any Spike it has, and this ship gains it. If any ships in this Group have siphoned any Spikes, all ships in this Group modify their Occulus Rays for this\nactivation.\n- If the Group siphoned one or more Minor Spikes, the Attack of Oculus Rays increases to 2.\n - If the Group siphoned one or more Major Spikes, the Damage of Oculus Rays increases to 2.  \n\nThis group may gain both benefits of this rule in its activation, but may only gain each benefit once each activation."
+      },
+      "Light§Revenant Destroyer": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Rays",
+            "Close-Action Weapons§Plasma Storm",
+            "Launch Assets§Scourge Fighters and Bombers"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "rules": {
+          "Cloaked": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "cost",
+                    "value"
+                  ]
+                ],
+                "value": 5
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "cloaked"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 1
+          },
+          "groupCost": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "totalCost",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "rules",
+                  "groupCost",
+                  "evals",
+                  "0",
+                  "result",
+                  "integer"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": false,
+                "contains": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": [
+                    "{self}",
+                    "tracked",
+                    "Number of Ships"
+                  ]
+                },
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "cost",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "assetCount": {
+            "value": 2
+          },
+          "Class": {
+            "value": "Revenant"
+          },
+          "Cloaking Crest": {
+            "dynamic": true,
+            "group": "Other",
+            "ranks": {
+              "0": {
+                "order": 0
+              },
+              "1": {
+                "order": 1,
+                "tracking": {
+                  "cloaked": 0
+                }
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "tracked": true,
+            "value": "0",
+            "visibility": "normal"
+          },
+          "cost": {
+            "value": 60
+          },
+          "G": {
+            "value": "2-4"
+          },
+          "Hull": {
+            "value": 6
+          },
+          "Launch Type": {
+            "value": "Fighters and Bombers"
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "2",
+                "number": 2,
+                "order": 0,
+                "tracking": {}
+              },
+              "2": {
+                "format": "3",
+                "number": 3,
+                "order": 1,
+                "tracking": {}
+              },
+              "3": {
+                "format": "4",
+                "number": 4,
+                "order": 2,
+                "tracking": {}
+              }
+            },
+            "value": "2"
+          },
+          "PD": {
+            "value": 4
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 5
+          },
+          "SingleAssetCount": {
+            "value": 2
+          },
+          "Special": {
+            "value": "Launch"
+          },
+          "T": {
+            "value": "L2"
+          },
+          "Thrust": {
+            "value": 10
+          },
+          "totalCost": {
+            "value": null
+          }
+        },
+        "text": "**Cloaking Crest**  \nThis ship may take a Cloaking Crest for +5pts and gains Stealth and Partial Cloak"
+      },
+      "Light§Scylla Frigate": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Rays",
+            "Scourge Weapons§Reverse Grav-Cannon",
+            "Close-Action Weapons§Plasma Cloud"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "5+"
+          },
+          "Class": {
+            "value": "Scylla"
+          },
+          "cost": {
+            "value": 42
+          },
+          "G": {
+            "value": "2-4"
+          },
+          "Hull": {
+            "value": 4
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "2",
+                "number": 2,
+                "order": 0,
+                "tracking": {}
+              },
+              "2": {
+                "format": "3",
+                "number": 3,
+                "order": 1,
+                "tracking": {}
+              },
+              "3": {
+                "format": "4",
+                "number": 4,
+                "order": 2,
+                "tracking": {}
+              }
+            }
+          },
+          "PD": {
+            "value": 4
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 3
+          },
+          "Special": {
+            "value": "Atmospheric"
+          },
+          "Thrust": {
+            "value": 12
+          }
+        }
+      },
+      "Light§Shedu Monitor": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beam Crest",
+            "Close-Action Weapons§Plasma Storm"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "3+"
+          },
+          "Class": {
+            "value": "Shedu"
+          },
+          "cost": {
+            "value": 45
+          },
+          "G": {
+            "value": "2-3"
+          },
+          "Hull": {
+            "value": 4
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "2",
+                "number": 2,
+                "order": 0,
+                "tracking": {}
+              },
+              "2": {
+                "format": "3",
+                "number": 3,
+                "order": 1,
+                "tracking": {}
+              }
+            },
+            "value": "1"
+          },
+          "PD": {
+            "value": 4
+          },
+          "Scan": {
+            "value": 8
+          },
+          "Sig": {
+            "value": 5
+          },
+          "Special": {
+            "value": "Monitor"
+          },
+          "Thrust": {
+            "value": 6
+          }
+        }
+      },
+      "Light§Succubus Destroyer": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beams",
+            "Scourge Weapons§Oculus Beams",
+            "Close-Action Weapons§Seekers"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "rules": {
+          "Cloaked": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "cost",
+                    "value"
+                  ]
+                ],
+                "value": 5
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "cloaked"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 1
+          },
+          "groupCost": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "totalCost",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "rules",
+                  "groupCost",
+                  "evals",
+                  "0",
+                  "result",
+                  "integer"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": false,
+                "contains": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": [
+                    "{self}",
+                    "tracked",
+                    "Number of Ships"
+                  ]
+                },
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "cost",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "assetCount": {
+            "value": 2
+          },
+          "Class": {
+            "value": "Succubus"
+          },
+          "Cloaking Crest": {
+            "dynamic": true,
+            "group": "Other",
+            "ranks": {
+              "0": {
+                "order": 0
+              },
+              "1": {
+                "order": 1,
+                "tracking": {
+                  "cloaked": 0
+                }
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "tracked": true,
+            "value": "0",
+            "visibility": "normal"
+          },
+          "cost": {
+            "value": 55
+          },
+          "G": {
+            "value": "2-3"
+          },
+          "Hull": {
+            "value": 6
+          },
+          "Launch Type": {},
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "2",
+                "number": 2,
+                "order": 0,
+                "tracking": {}
+              },
+              "2": {
+                "format": "3",
+                "number": 3,
+                "order": 1,
+                "tracking": {}
+              }
+            },
+            "value": "2"
+          },
+          "PD": {
+            "value": 4
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 5
+          },
+          "SingleAssetCount": {},
+          "Special": {
+            "value": "-"
+          },
+          "T": {
+            "value": "L2"
+          },
+          "Thrust": {
+            "value": 10
+          },
+          "totalCost": {
+            "value": null
+          }
+        },
+        "text": "**Cloaking Crest**  \nThis ship may take a Cloaking Crest for +5pts and gains Stealth and Partial Cloak"
+      },
+      "Light§Wraith Cutter": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Rays",
+            "Close-Action Weapons§Plasma Brand"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "5+"
+          },
+          "Class": {
+            "value": "Wraith"
+          },
+          "cost": {
+            "value": 40
+          },
+          "G": {
+            "value": "2-3"
+          },
+          "Hull": {
+            "value": 6
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "2",
+                "number": 2,
+                "order": 0,
+                "tracking": {}
+              },
+              "2": {
+                "format": "3",
+                "number": 3,
+                "order": 1,
+                "tracking": {}
+              }
+            },
+            "value": "1"
+          },
+          "PD": {
+            "value": 2
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 6
+          },
+          "Special": {
+            "value": "Outlier, Vectored"
+          },
+          "T": {
+            "value": "L2"
+          },
+          "Thrust": {
+            "value": 16
+          }
+        }
+      },
+      "Medium§Chimera Troopship": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beams",
+            "Close-Action Weapons§Plasma Storm",
+            "Launch Assets§Bulk Landers"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Chimera"
+          },
+          "cost": {
+            "value": 105
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 10
+          },
+          "Launch Type": {
+            "value": "Bulk Lander"
+          },
+          "PD": {
+            "value": 6
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "SingleAssetCount": {
+            "value": 2
+          },
+          "Special": {
+            "value": "Launch"
+          },
+          "T": {
+            "value": "M"
+          },
+          "Thrust": {
+            "value": 10
+          }
+        }
+      },
+      "Medium§Hydra Fleet Carrier": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beams",
+            "Close-Action Weapons§Plasma Storm",
+            "Launch Assets§Scourge Fighters and Bombers"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Hydra"
+          },
+          "cost": {
+            "value": 140
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 10
+          },
+          "Launch Type": {
+            "value": "Fighters and Bombers"
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 0
+              },
+              "2": {
+                "number": 2,
+                "order": 1
+              }
+            },
+            "statType": "numeric",
+            "value": 1
+          },
+          "PD": {
+            "value": 6
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "SingleAssetCount": {
+            "value": 5
+          },
+          "Special": {
+            "value": "Launch"
+          },
+          "T": {
+            "value": "M"
+          },
+          "Thrust": {
+            "value": 10
+          }
+        }
+      },
+      "Medium§Ifrit Cruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beams",
+            "Scourge Weapons§Furnace Cannons",
+            "Close-Action Weapons§Plasma Storm"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Ifrit"
+          },
+          "cost": {
+            "value": 110
+          },
+          "G": {
+            "value": "1-2"
+          },
+          "Hull": {
+            "value": 10
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "1",
+                "number": 1,
+                "order": 0
+              },
+              "2": {
+                "format": "2",
+                "number": 2,
+                "order": 1
+              }
+            },
+            "value": "1"
+          },
+          "PD": {
+            "value": 6
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "Special": {
+            "value": "-"
+          },
+          "T": {
+            "value": "M"
+          },
+          "Thrust": {
+            "value": 10
+          }
+        }
       },
       "Medium§San Francisco Troopship": {
         "assets": {
@@ -2687,25 +6003,20 @@
           },
           "Number of Ships": {
             "ranks": {
+              "1": {
+                "format": "1",
+                "number": 1,
+                "order": 0
+              },
               "2": {
                 "format": "2",
+                "number": 2,
                 "order": 1,
                 "prepend": true,
-                "tracking": {
-                  "assetCount": 2,
-                  "Strategy Rating": 5,
-                  "totalCost": 210
-                }
-              },
-              "one": {
-                "format": "1",
-                "order": 0,
-                "tracking": {
-                  "totalCost": 105
-                }
+                "tracking": {}
               }
             },
-            "value": "one"
+            "value": "1"
           },
           "PD": {
             "value": 5
@@ -2715,6 +6026,9 @@
           },
           "Sig": {
             "value": 6
+          },
+          "SingleAssetCount": {
+            "value": 2
           },
           "Special": {
             "value": "Launch"
@@ -2727,6 +6041,360 @@
           }
         },
         "text": ""
+      },
+      "Medium§Solar Sphinx Cruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beams",
+            "Scourge Weapons§Oculus Beam Array L",
+            "Scourge Weapons§Oculus Beam Array R",
+            "Close-Action Weapons§Plasma Storm"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Solar Sphinx"
+          },
+          "cost": {
+            "value": 115
+          },
+          "G": {
+            "value": "1-2"
+          },
+          "Hull": {
+            "value": 10
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "1",
+                "number": 1,
+                "order": 0
+              },
+              "2": {
+                "format": "2",
+                "number": 2,
+                "order": 1
+              }
+            }
+          },
+          "PD": {
+            "value": 6
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "Special": {
+            "value": "-"
+          },
+          "T": {
+            "value": "M"
+          },
+          "Thrust": {
+            "value": 10
+          }
+        },
+        "text": "**Counts As**  \nThis ship counts as a Sphinx Cruiser"
+      },
+      "Medium§Solar Wyvern Cruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beams",
+            "Close-Action Weapons§Plasma Tempest"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Solar Wyvern"
+          },
+          "G": {
+            "value": "1-2"
+          },
+          "Hull": {
+            "value": 10
+          },
+          "PD": {
+            "value": 6
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "Special": {
+            "value": "-"
+          },
+          "T": {
+            "value": "M"
+          },
+          "Thrust": {
+            "value": 10
+          }
+        }
+      },
+      "Medium§Sphinx Cruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beams",
+            "Scourge Weapons§Oculus Beam Array L",
+            "Scourge Weapons§Oculus Beam Array R",
+            "Close-Action Weapons§Plasma Storm"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Sphinx"
+          },
+          "cost": {
+            "value": 115
+          },
+          "G": {
+            "value": "1-2"
+          },
+          "Hull": {
+            "value": 10
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "1",
+                "number": 1,
+                "order": 0
+              },
+              "2": {
+                "format": "2",
+                "number": 2,
+                "order": 1
+              }
+            }
+          },
+          "PD": {
+            "value": 6
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "Special": {
+            "value": "-"
+          },
+          "T": {
+            "value": "M"
+          },
+          "Thrust": {
+            "value": 10
+          }
+        }
+      },
+      "Medium§Strix Light Cruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beams",
+            "Close-Action Weapons§Plasma Tempest"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "5+"
+          },
+          "Admiral": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 1,
+                "term": "1"
+              }
+            },
+            "statOrder": 3
+          },
+          "Class": {
+            "value": "Strix"
+          },
+          "G": {
+            "value": "2-3"
+          },
+          "Hull": {
+            "value": 8
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "2",
+                "number": 2,
+                "order": 0
+              },
+              "2": {
+                "format": "3",
+                "number": 3,
+                "order": 1
+              }
+            },
+            "value": "1"
+          },
+          "PD": {
+            "value": 2
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "Special": {
+            "value": "-"
+          },
+          "T": {
+            "value": "M"
+          },
+          "Thrust": {
+            "value": 12
+          }
+        }
+      },
+      "Medium§Wyvern Cruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beams",
+            "Close-Action Weapons§Plasma Tempest"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "4+"
+          },
+          "Class": {
+            "value": "Wyvern"
+          },
+          "G": {
+            "value": "1-2"
+          },
+          "Hull": {
+            "value": 10
+          },
+          "PD": {
+            "value": 6
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "Special": {
+            "value": "-"
+          },
+          "T": {
+            "value": "M"
+          },
+          "Thrust": {
+            "value": 10
+          }
+        }
+      },
+      "Medium§Yokai Light Cruiser": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beams",
+            "Scourge Weapons§Oculus Beam Array L",
+            "Scourge Weapons§Oculus Beam Array R",
+            "Close-Action Weapons§Plasma Storm"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "5+"
+          },
+          "Class": {
+            "value": "Yokai"
+          },
+          "cost": {
+            "value": 95
+          },
+          "G": {
+            "value": "2-3"
+          },
+          "Hull": {
+            "value": 8
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "2",
+                "number": 2,
+                "order": 0
+              },
+              "2": {
+                "format": "3",
+                "number": 3,
+                "order": 1
+              }
+            },
+            "value": "1"
+          },
+          "PD": {
+            "value": 2
+          },
+          "Scan": {
+            "value": 6
+          },
+          "Sig": {
+            "value": 8
+          },
+          "Special": {
+            "value": "-"
+          },
+          "T": {
+            "value": "M"
+          },
+          "Thrust": {
+            "value": 12
+          }
+        }
       },
       "Roster§Fleet": {
         "allowed": {
@@ -2759,6 +6427,31 @@
             "evaluate": "AND",
             "failState": "error"
           },
+          "Admiral must be in Dreadnought if one is present": {
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "stats",
+                    "AdmiralSH",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{roster}",
+                  "stats",
+                  "DreadnoughtYN",
+                  "value"
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
           "Below Point Floor": {
             "evals": [
               {
@@ -2782,6 +6475,39 @@
             ],
             "evaluate": "AND",
             "failState": "error"
+          },
+          "Dreadhere": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "DreadnoughtYN"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "min": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Dreadnought"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
           },
           "Flag Count": {
             "evals": [
@@ -3061,6 +6787,13 @@
             "value": "1",
             "visibility": "normal"
           },
+          "AdmiralSH": {
+            "max": 1,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "hidden"
+          },
           "assetCount": {
             "label": "Current Launch",
             "statOrder": 3,
@@ -3125,8 +6858,16 @@
             },
             "statOrder": 1,
             "statType": "rank",
+            "tracked": true,
             "value": "Skirmish",
             "visibility": "normal"
+          },
+          "DreadnoughtYN": {
+            "max": 1,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "hidden"
           },
           "Faction": {
             "dynamic": true,
@@ -3170,6 +6911,12 @@
             "visibility": "normal"
           },
           "maxBattlegroups": {
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "hidden"
+          },
+          "Maxgrouppts": {
             "statType": "numeric",
             "tracked": true,
             "value": 0,
@@ -3225,6 +6972,25 @@
           },
           "Special": {
             "value": "Burnthrough (12), Corruptor, Flash"
+          }
+        }
+      },
+      "Scourge Weapons§Furnace Blaster": {
+        "stats": {
+          "Arc": {
+            "value": "F(N)"
+          },
+          "Attack": {
+            "value": 3
+          },
+          "Damage": {
+            "value": 1
+          },
+          "Lock": {
+            "value": "3+"
+          },
+          "Special": {
+            "value": "Burnthrough(6), Corruptor, Flash"
           }
         }
       },
@@ -3622,7 +7388,7 @@
             "value": "4+"
           },
           "Special": {
-            "value": "Bombardment, Low Level, Scal"
+            "value": "Bombardment, Low Level, Scald"
           }
         }
       },
@@ -3661,6 +7427,467 @@
           },
           "Special": {
             "value": "Escape Velocity"
+          }
+        }
+      },
+      "SuperHeavy§Beelzebub Battleship": {
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "3+"
+          },
+          "Class": {
+            "value": "Beelzebub"
+          },
+          "cost": {
+            "value": 245
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 20
+          },
+          "Launch Type": {
+            "value": "Fighters and Bombers"
+          },
+          "PD": {
+            "value": 12
+          },
+          "Scan": {
+            "value": 8
+          },
+          "Sig": {
+            "value": 10
+          },
+          "SingleAssetCount": {
+            "value": 2
+          },
+          "T": {
+            "value": "S"
+          },
+          "Thrust": {
+            "value": 8
+          }
+        }
+      },
+      "SuperHeavy§Daemon Battleship": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Furnace Fangs",
+            "Scourge Weapons§Battleship Oculus Beam Array",
+            "Scourge Weapons§Oculus Beam Phalanx (L)",
+            "Scourge Weapons§Oculus Beam Phalanx (R)",
+            "Close-Action Weapons§Plasma Cyclone"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "3+"
+          },
+          "Class": {
+            "value": "Daemon"
+          },
+          "cost": {
+            "value": 260
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 20
+          },
+          "PD": {
+            "value": 12
+          },
+          "Scan": {
+            "value": 8
+          },
+          "Sig": {
+            "value": 10
+          },
+          "Special": {
+            "value": "-"
+          },
+          "T": {
+            "value": "S"
+          },
+          "Thrust": {
+            "value": 8
+          }
+        }
+      },
+      "SuperHeavy§Devil Battleship": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Mega Plasma Lance Battery",
+            "Scourge Weapons§Battleship Oculus Beam Array",
+            "Close-Action Weapons§Plasma Cyclone",
+            "Launch Assets§Scourge Fighters and Bombers"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "3+"
+          },
+          "Class": {
+            "value": "Devil"
+          },
+          "cost": {
+            "value": 255
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 20
+          },
+          "Launch Type": {
+            "value": "Fighters and Bombers"
+          },
+          "PD": {
+            "value": 12
+          },
+          "Scan": {
+            "value": 8
+          },
+          "Sig": {
+            "value": 10
+          },
+          "SingleAssetCount": {
+            "value": 4
+          },
+          "Special": {
+            "value": "Launch"
+          },
+          "T": {
+            "value": "S"
+          },
+          "Thrust": {
+            "value": 8
+          }
+        }
+      },
+      "SuperHeavy§Dragon Battleship": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Furnace Fangs",
+            "Scourge Weapons§Battleship Oculus Beam Array",
+            "Close-Action Weapons§Plasma Cyclone",
+            "Launch Assets§Scourge Fighters and Bombers",
+            "Launch Assets§Scourge Torpedo",
+            "Launch Assets§Scourge Torpedo"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "3+"
+          },
+          "assetCount": {
+            "tracked": true,
+            "value": 2
+          },
+          "Class": {
+            "value": "Dragon"
+          },
+          "cost": {
+            "value": 265
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 20
+          },
+          "Launch Type": {
+            "ranks": {
+              "Fighters, Bombers and Torpedos": {
+                "order": 4
+              }
+            },
+            "value": "Fighters and Bombers"
+          },
+          "PD": {
+            "value": 12
+          },
+          "Scan": {
+            "value": 8
+          },
+          "Secondary Launch Type": {
+            "group": "Secondary Launch",
+            "groupOrder": 5,
+            "statOrder": 3,
+            "statType": "term",
+            "value": "Torpedoes",
+            "visibility": "normal"
+          },
+          "Sig": {
+            "value": 10
+          },
+          "SingleAssetCount": {
+            "value": 3
+          },
+          "Special": {
+            "value": "Launch"
+          },
+          "T": {
+            "value": "S"
+          },
+          "Thrust": {
+            "value": 8
+          }
+        }
+      },
+      "SuperHeavy§Lucifer Battleship": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Battleship Oculus Beam Array",
+            "Close-Action Weapons§Plasma Cyclone",
+            "Launch Assets§Scourge Fighters and Bombers"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "3+"
+          },
+          "Class": {
+            "value": "Lucifer"
+          },
+          "cost": {
+            "value": 230
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 20
+          },
+          "Launch Type": {
+            "value": "Fighters and Bombers"
+          },
+          "PD": {
+            "value": 12
+          },
+          "Scan": {
+            "value": 8
+          },
+          "Sig": {
+            "value": 10
+          },
+          "SingleAssetCount": {
+            "value": 4
+          },
+          "Special": {
+            "value": "Launch"
+          },
+          "T": {
+            "value": "S"
+          },
+          "Thrust": {
+            "value": 12
+          }
+        }
+      },
+      "SuperHeavy2§Cthulhu Dreadnought": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Furnace Triad",
+            "Scourge Weapons§Oculus Beam Array, Starboard",
+            "Scourge Weapons§Oculus Beam Array, Starboard",
+            "Scourge Weapons§Oculus Beam Array, Port",
+            "Scourge Weapons§Oculus Beam Array, Port",
+            "Close-Action Weapons§Plasma Cyclone",
+            "Launch Assets§Scourge Fighters and Bombers"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "removed": {
+          "rules": {
+            "Admiral Must Be In Dreadnought If Present": {}
+          }
+        },
+        "stats": {
+          "A": {
+            "value": "3+"
+          },
+          "Admiral": {
+            "ranks": {
+              "0": {
+                "number": 0,
+                "order": 0,
+                "term": "0"
+              },
+              "1": {
+                "number": 1,
+                "order": 1,
+                "term": "1",
+                "tracking": {
+                  "AdmiralSH": 1
+                }
+              }
+            }
+          },
+          "Class": {
+            "groupOrder": 5,
+            "value": "Cthulhu"
+          },
+          "cost": {
+            "value": 470
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 26
+          },
+          "Number of Ships": {
+            "value": 1
+          },
+          "PD": {
+            "value": 20
+          },
+          "Scan": {
+            "groupOrder": 5,
+            "value": 14
+          },
+          "Sig": {
+            "value": 18
+          },
+          "SingleAssetCount": {
+            "value": 8
+          },
+          "Special": {
+            "statOrder": 9,
+            "value": "Dreadnought, Full Cloak, Launch, Stealth"
+          },
+          "T": {
+            "value": "S2"
+          },
+          "Thrust": {
+            "value": 8
+          }
+        }
+      },
+      "SuperHeavy2§Nosferatu Dreadnought": {
+        "assets": {
+          "traits": [
+            "Scourge Weapons§Oculus Beam Super Phalanx",
+            "Scourge Weapons§Oculus Beam Array, Starboard",
+            "Scourge Weapons§Oculus Beam Array, Starboard",
+            "Scourge Weapons§Oculus Beam Array, Port",
+            "Scourge Weapons§Oculus Beam Array, Port",
+            "Close-Action Weapons§Plasma Flood",
+            "Launch Assets§Scourge Fighters and Bombers"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Scourge"
+          ]
+        },
+        "stats": {
+          "A": {
+            "value": "3+"
+          },
+          "Class": {
+            "value": "Nosferatu"
+          },
+          "cost": {
+            "value": 460
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 26
+          },
+          "PD": {
+            "value": 20
+          },
+          "Scan": {
+            "value": 14
+          },
+          "Sig": {
+            "value": 18
+          },
+          "SingleAssetCount": {
+            "value": 5
+          },
+          "Special": {
+            "value": "Dreadnought, Full Cloak, Launch, Stealth"
+          },
+          "T": {
+            "value": "S2"
+          },
+          "Thrust": {
+            "value": 8
+          }
+        }
+      },
+      "SuperHeavy2§Remus Dreadnought": {
+        "keywords": {
+          "Tags": [
+            "PHR"
+          ]
+        },
+        "stats": {
+          "Class": {
+            "value": "Remus"
+          },
+          "G": {
+            "value": "1"
+          },
+          "Hull": {
+            "value": 30
+          },
+          "PD": {
+            "value": 18
+          },
+          "Scan": {
+            "value": 16
+          },
+          "Sig": {
+            "value": 14
+          },
+          "SingleAssetCount": {
+            "value": 4
+          },
+          "Special": {
+            "value": "Dreadnought. Launch"
+          },
+          "T": {
+            "value": "S2"
+          },
+          "Thrust": {
+            "value": 6
           }
         }
       }
