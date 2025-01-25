@@ -1,0 +1,2458 @@
+{
+  "name": "Dropfleet Commander",
+  "revision": "1.7.1",
+  "game": "Dropfleet Commander",
+  "genre": "sci-fi",
+  "publisher": "TTCombat",
+  "url": "",
+  "notes": "Dropfleet Commander WIP rulebook for 1.7 and FAQ 2.6.1",
+  "wip": true,
+  "rulebook": {
+    "assetTaxonomy": {
+      "Battlegroup": {
+        "rules": {
+          "allowFaction": {
+            "actions": [
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "constraints",
+                    "any"
+                  ]
+                ],
+                "value": [
+                  "{roster}",
+                  "stats",
+                  "Faction",
+                  "value"
+                ]
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "BattlegroupCost": {
+            "evals": []
+          },
+          "Maximum of 33% of point cap can be spent on a single Battlegroup, or 50% if playing Skirmish": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{roster}",
+                  "tracked",
+                  "Maxgrouppts"
+                ],
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "stats": {
+          "AdmiralSH": {
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "hidden"
+          },
+          "assetCount": {
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "hidden"
+          },
+          "Battlegroup Strategy Rating": {
+            "group": "Battlegroup Info",
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Battlegroup Type": {
+            "dynamic": true,
+            "group": "Battlegroup Info",
+            "ranks": {
+              "Pathfinder": {
+                "order": 0
+              },
+              "Line": {
+                "order": 1
+              },
+              "Vanguard": {
+                "order": 2
+              },
+              "Flagship": {
+                "order": 3
+              }
+            },
+            "statType": "rank",
+            "value": null,
+            "visibility": "normal"
+          },
+          "totalCost": {
+            "group": "Battlegroup Info",
+            "label": "Battlegroup Cost",
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Close-Action Weapons": {
+        "stats": {
+          "Arc": {
+            "group": "Weapon Stats",
+            "statOrder": 4,
+            "statType": "term",
+            "value": "F/S/R",
+            "visibility": "normal"
+          },
+          "Attack": {
+            "group": "Weapon Stats",
+            "statOrder": 2,
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Weapon Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Weapon Stats",
+            "ranks": {
+              "2+": {
+                "order": 0
+              },
+              "3+": {
+                "order": 1
+              },
+              "4+": {
+                "order": 2
+              },
+              "5+": {
+                "order": 3
+              }
+            },
+            "statOrder": 1,
+            "statType": "rank",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Weapon Stats",
+            "statOrder": 7,
+            "statType": "term",
+            "value": "Close Action",
+            "visibility": "normal"
+          }
+        }
+      },
+      "Group": {
+        "aspects": {
+          "Group Traits": true,
+          "Lock Qty": true,
+          "Type": "game piece"
+        },
+        "rules": {
+          "groupCost": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "totalCost",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "rules",
+                  "groupCost",
+                  "evals",
+                  "0",
+                  "result",
+                  "integer"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": false,
+                "contains": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": [
+                    "{self}",
+                    "tracked",
+                    "Number of Ships"
+                  ]
+                },
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "cost",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "TotalLaunchAssets": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{parent}",
+                    "stats",
+                    "assetCount",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "rules",
+                  "TotalLaunchAssets",
+                  "evals",
+                  "0",
+                  "result",
+                  "integer"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": false,
+                "contains": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": [
+                    "{self}",
+                    "tracked",
+                    "Number of Ships"
+                  ]
+                },
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "SingleAssetCount"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "totalStrategy": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{parent}",
+                    "stats",
+                    "Battlegroup Strategy Rating",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "rules",
+                  "totalStrategy",
+                  "evals",
+                  "0",
+                  "result",
+                  "integer"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": false,
+                "contains": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": [
+                    "{self}",
+                    "tracked",
+                    "Number of Ships"
+                  ]
+                },
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Strategy Rating"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "A": {
+            "group": "Ship Stats",
+            "groupOrder": 10,
+            "ranks": {
+              "2+": {
+                "order": 0
+              },
+              "3+": {
+                "order": 1
+              },
+              "4+": {
+                "order": 2
+              },
+              "5+": {
+                "order": 3
+              },
+              "6+": {
+                "order": 4
+              }
+            },
+            "statOrder": 6,
+            "statType": "rank",
+            "value": "2+",
+            "visibility": "normal"
+          },
+          "Admiral": {
+            "dynamic": true,
+            "group": "Other",
+            "groupOrder": 3,
+            "ranks": {
+              "0": {
+                "order": 0,
+                "term": "0"
+              },
+              "1": {
+                "number": 1,
+                "order": 1,
+                "term": "1",
+                "text": "1",
+                "tracking": {}
+              }
+            },
+            "statOrder": 3,
+            "statType": "rank",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
+          "assetCount": {
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "hidden"
+          },
+          "Class": {
+            "group": "Ship Stats",
+            "groupOrder": 10,
+            "statType": "term",
+            "value": null,
+            "visibility": "normal"
+          },
+          "cost": {
+            "group": "Points",
+            "label": "Cost per Ship",
+            "statOrder": 2,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
+          "G": {
+            "group": "Ship Stats",
+            "groupOrder": 10,
+            "ranks": {
+              "1": {
+                "order": 0,
+                "tracking": {
+                  "maxShip": 1,
+                  "minShip": 1
+                }
+              },
+              "2": {
+                "order": 4,
+                "tracking": {
+                  "maxShip": 2,
+                  "minShip": 2
+                }
+              },
+              "1-2": {
+                "order": 1,
+                "tracking": {
+                  "maxShip": 2,
+                  "minShip": 1
+                }
+              },
+              "1-3": {
+                "order": 2,
+                "tracking": {
+                  "maxShip": 3,
+                  "minShip": 1
+                }
+              },
+              "1-4": {
+                "order": 3,
+                "tracking": {
+                  "maxShip": 4,
+                  "minShip": 1
+                }
+              },
+              "2-3": {
+                "order": 5,
+                "tracking": {
+                  "maxShip": 3,
+                  "minShip": 2
+                }
+              },
+              "2-4": {
+                "order": 6,
+                "tracking": {
+                  "maxShip": 4,
+                  "minShip": 2
+                }
+              }
+            },
+            "statOrder": 8,
+            "statType": "rank",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Hull": {
+            "group": "Ship Stats",
+            "groupOrder": 10,
+            "statOrder": 5,
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Number of Ships": {
+            "dynamic": true,
+            "statType": "rank",
+            "tracked": true,
+            "value": null,
+            "visibility": "normal"
+          },
+          "PD": {
+            "group": "Ship Stats",
+            "groupOrder": 10,
+            "statOrder": 7,
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Scan": {
+            "group": "Ship Stats",
+            "groupOrder": 10,
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Sig": {
+            "group": "Ship Stats",
+            "groupOrder": 10,
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "normal"
+          },
+          "SingleAssetCount": {
+            "group": "Launch",
+            "groupOrder": 1,
+            "label": "Launch Capacity",
+            "statType": "numeric",
+            "tracked": true,
+            "value": null,
+            "visibility": "hidden"
+          },
+          "Special": {
+            "group": "Ship Special",
+            "groupOrder": 11,
+            "statOrder": 11,
+            "statType": "term",
+            "value": null,
+            "visibility": "normal"
+          },
+          "T": {
+            "group": "Ship Stats",
+            "groupOrder": 10,
+            "ranks": {
+              "L": {
+                "order": 0,
+                "tracking": {
+                  "Strategy Rating": 1
+                }
+              },
+              "L2": {
+                "order": 1,
+                "tracking": {
+                  "Strategy Rating": 2
+                }
+              },
+              "M": {
+                "order": 2,
+                "tracking": {
+                  "Strategy Rating": 5
+                }
+              },
+              "H": {
+                "order": 3,
+                "tracking": {
+                  "Strategy Rating": 10
+                }
+              },
+              "S": {
+                "order": 4,
+                "tracking": {
+                  "Strategy Rating": 15
+                }
+              },
+              "S2": {
+                "order": 5,
+                "tracking": {
+                  "Strategy Rating": 30
+                }
+              }
+            },
+            "statOrder": 9,
+            "statType": "rank",
+            "tracked": true,
+            "value": null,
+            "visibility": "normal"
+          },
+          "Thrust": {
+            "group": "Ship Stats",
+            "groupOrder": 10,
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "normal"
+          },
+          "totalCost": {
+            "group": "Points",
+            "label": "Group Cost",
+            "statOrder": 3,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Heavy": {
+        "rules": {
+          "Admiral Discount 2": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -20
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 2
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 3": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -20
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 3
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 4": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -40
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 4
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 5": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -20
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 5
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 6": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -40
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 6
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "Admiral": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 1,
+                "term": "1",
+                "tracking": {}
+              }
+            }
+          },
+          "Number of Ships": {
+            "dynamic": false,
+            "statType": "numeric",
+            "value": 1
+          }
+        },
+        "templateClass": "Group"
+      },
+      "Launch Assets": {},
+      "Light": {
+        "allowed": {
+          "items": []
+        },
+        "assets": {
+          "traits": []
+        },
+        "constraints": {
+          "none": []
+        },
+        "disallowed": {
+          "classifications": [],
+          "items": []
+        },
+        "keywords": {
+          "UCM": []
+        },
+        "stats": {
+          "A": {
+            "ranks": {
+              "2+": {
+                "order": 0
+              },
+              "3+": {
+                "order": 1
+              },
+              "4+": {
+                "order": 2
+              },
+              "5+": {
+                "order": 3
+              },
+              "6+": {
+                "order": 4
+              }
+            },
+            "statType": "rank",
+            "value": "2+"
+          },
+          "Admiral": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 1,
+                "term": "1",
+                "text": "1",
+                "tracking": {}
+              }
+            },
+            "visibility": "hidden"
+          },
+          "Class": {
+            "statType": "term",
+            "value": null
+          },
+          "G": {
+            "ranks": {
+              "1": {
+                "order": 0
+              },
+              "2": {
+                "order": 4
+              },
+              "1-2": {
+                "order": 1
+              },
+              "1-3": {
+                "order": 2
+              },
+              "1-4": {
+                "order": 3
+              },
+              "2-3": {
+                "order": 5
+              },
+              "2-4": {
+                "order": 6
+              }
+            },
+            "statType": "rank",
+            "value": null
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 0
+              }
+            }
+          },
+          "T": {
+            "value": "L"
+          }
+        },
+        "templateClass": "Group"
+      },
+      "Medium": {
+        "stats": {
+          "Admiral": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 1,
+                "term": "1"
+              }
+            },
+            "value": "0"
+          },
+          "Number of Ships": {
+            "ranks": {
+              "1": {
+                "format": "1",
+                "number": 1,
+                "order": 0
+              },
+              "2": {
+                "format": "2",
+                "number": 2,
+                "order": 1
+              }
+            },
+            "value": "1"
+          }
+        },
+        "templateClass": "Group"
+      },
+      "Scourge Weapons": {
+        "aspects": {
+          "Lock Qty": true,
+          "Type": "game piece"
+        },
+        "keywords": {
+          "Tags": []
+        },
+        "stats": {
+          "Arc": {
+            "group": "Weapon Stats",
+            "statOrder": 4,
+            "statType": "term",
+            "value": "F/S/R",
+            "visibility": "normal"
+          },
+          "Attack": {
+            "group": "Weapon Stats",
+            "statOrder": 2,
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Damage": {
+            "group": "Weapon Stats",
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Lock": {
+            "group": "Weapon Stats",
+            "ranks": {
+              "2+": {
+                "order": 0
+              },
+              "3+": {
+                "order": 1
+              },
+              "4+": {
+                "order": 2
+              },
+              "5+": {
+                "order": 3
+              }
+            },
+            "statOrder": 1,
+            "statType": "rank",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Special": {
+            "group": "Weapon Stats",
+            "statOrder": 7,
+            "statType": "term",
+            "value": "Scald",
+            "visibility": "normal"
+          }
+        }
+      },
+      "SuperHeavy": {
+        "rules": {
+          "Admiral Discount 2": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -20
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 2
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 3": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -40
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 3
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 4": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -60
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 4
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 5": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -60
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 5
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Admiral Discount 6": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ],
+                "value": -60
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Admiral Level"
+                  ]
+                ],
+                "value": 6
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "Admiral": {
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 1,
+                "term": "1",
+                "tracking": {}
+              }
+            }
+          },
+          "Number of Ships": {
+            "statType": "numeric",
+            "value": 1
+          }
+        },
+        "templateClass": "Group"
+      }
+    },
+    "assetCatalog": {
+      "Battlegroup§Flag": {
+        "allowed": {
+          "classifications": [
+            "Light",
+            "SuperHeavy",
+            "SuperHeavy2"
+          ],
+          "items": []
+        },
+        "aspects": {
+          "Lock Qty": true
+        },
+        "keywords": {
+          "Tags": []
+        },
+        "removed": {
+          "stats": {
+            "Light Groups": {}
+          }
+        },
+        "rules": {
+          "0 - 1 Light Groups": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 1,
+                "min": 0,
+                "not": false,
+                "operator": "SUM",
+                "paths": [
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    [
+                      "Light",
+                      "Light2"
+                    ],
+                    "quantity"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "allowFaction": {
+            "actions": [
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "constraints",
+                    "any"
+                  ]
+                ],
+                "value": [
+                  "{roster}",
+                  "stats",
+                  "Faction",
+                  "value"
+                ]
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "If Dreadnought in Battlegroup, no other ships allowed.": {
+            "evals": [
+              {
+                "actionable": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": [
+                    "{self}",
+                    "tally",
+                    "Group"
+                  ]
+                },
+                "max": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Dreadnought"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Maximum of 2 Groups": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 2,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tally",
+                    "Group"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Maximum of 33% of point cap can be spent on a single Battlegroup, or 50% if playing Skirmish": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{roster}",
+                  "tracked",
+                  "Maxgrouppts"
+                ],
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ]
+              }
+            ]
+          },
+          "No Groups in Battlegroup": {
+            "evals": [
+              {
+                "actionable": true,
+                "min": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tally",
+                    "Group"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "totalgroups": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "groupCount",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "tally",
+                  "Group"
+                ]
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "Battlegroup Type": {
+            "dynamic": false,
+            "value": "Flagship"
+          },
+          "groupCount": {
+            "statType": "numeric",
+            "value": 0
+          }
+        }
+      },
+      "Battlegroup§Line": {
+        "allowed": {
+          "classifications": [
+            "Light",
+            "Medium"
+          ],
+          "items": []
+        },
+        "aspects": {
+          "Lock Qty": true
+        },
+        "keywords": {
+          "Tags": []
+        },
+        "removed": {
+          "stats": {
+            "Light Groups": {}
+          }
+        },
+        "rules": {
+          "0 - 2 Light Groups": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 2,
+                "min": 0,
+                "not": false,
+                "operator": "SUM",
+                "paths": [
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    [
+                      "Light",
+                      "Light2"
+                    ],
+                    "quantity"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "1 - 3 Medium Groups": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 3,
+                "min": 1,
+                "not": false,
+                "operator": "SUM",
+                "paths": [
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    "Medium",
+                    "quantity"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "allowFaction": {
+            "actions": [
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "constraints",
+                    "any"
+                  ]
+                ],
+                "value": [
+                  "{roster}",
+                  "stats",
+                  "Faction",
+                  "value"
+                ]
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Maximum 50% of points can be in one Battlegroup for Skirmish": {
+            "evals": [
+              {
+                "actionable": false,
+                "contains": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "stats",
+                    "Battle Size",
+                    "ranks"
+                  ]
+                ],
+                "value": "Skirmish"
+              },
+              {
+                "actionable": true,
+                "max": 500,
+                "min": 0,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ]
+              }
+            ]
+          },
+          "Maximum of 3 Groups": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 3,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tally",
+                    "Group"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Maximum of 33% of point cap can be spent on a single Battlegroup, or 50% if playing Skirmish": {
+            "evals": [
+              {
+                "actionable": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": 3
+                },
+                "max": [
+                  "{roster}",
+                  "tracked",
+                  "Max Points"
+                ],
+                "not": false,
+                "operator": "SUM",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ]
+              }
+            ]
+          },
+          "No Groups in Battlegroup": {
+            "evals": [
+              {
+                "actionable": true,
+                "min": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tally",
+                    "Group"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "stats": {
+          "Battlegroup Type": {
+            "dynamic": false,
+            "group": "Group Information",
+            "value": "Line"
+          }
+        }
+      },
+      "Battlegroup§Pathfinder": {
+        "allowed": {
+          "classifications": [
+            "Light",
+            "Medium"
+          ],
+          "items": []
+        },
+        "aspects": {
+          "Lock Qty": true
+        },
+        "disallowed": {
+          "items": []
+        },
+        "removed": {
+          "stats": {
+            "Light Groups": {}
+          }
+        },
+        "rules": {
+          "0 - 1 Medium Groups": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 1,
+                "min": 0,
+                "not": false,
+                "operator": "SUM",
+                "paths": [
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    "Medium",
+                    "quantity"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "allowFaction": {
+            "actions": [
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "constraints",
+                    "any"
+                  ]
+                ],
+                "value": [
+                  "{roster}",
+                  "stats",
+                  "Faction",
+                  "value"
+                ]
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Between 1 and 3 Light Groups": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 3,
+                "min": 1,
+                "not": false,
+                "operator": "SUM",
+                "paths": [
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    [
+                      "Light",
+                      "Light2"
+                    ],
+                    "quantity"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Maximum of 3 Groups": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 3,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tally",
+                    "Group"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "No groups in Battlegroup": {
+            "evals": [
+              {
+                "actionable": true,
+                "min": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tally",
+                    "Group"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "stats": {
+          "Battlegroup Type": {
+            "dynamic": false,
+            "value": "Pathfinder"
+          }
+        }
+      },
+      "Battlegroup§Vanguard": {
+        "allowed": {
+          "classifications": [
+            "Light",
+            "Heavy",
+            "Medium"
+          ],
+          "items": []
+        },
+        "aspects": {
+          "Lock Qty": true
+        },
+        "removed": {
+          "stats": {
+            "Light Groups": {}
+          }
+        },
+        "rules": {
+          "0 -1 Light Groups": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 1,
+                "min": 0,
+                "not": false,
+                "operator": "SUM",
+                "paths": [
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    [
+                      "Light",
+                      "Light2"
+                    ],
+                    "quantity"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "allowFaction": {
+            "actions": [
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "constraints",
+                    "any"
+                  ]
+                ],
+                "value": [
+                  "{roster}",
+                  "stats",
+                  "Faction",
+                  "value"
+                ]
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Maximum of 3 Groups": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 3,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tally",
+                    "Group"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "No Groups in Battlegroup": {
+            "evals": [
+              {
+                "actionable": true,
+                "min": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tally",
+                    "Group"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "stats": {
+          "Battlegroup Type": {
+            "dynamic": false,
+            "value": "Vanguard"
+          }
+        }
+      },
+      "Roster§Roster": {
+        "aspects": {
+          "Label": "Fleet"
+        },
+        "allowed": {
+          "classifications": [
+            "Battlegroup"
+          ]
+        },
+        "assets": {
+          "included": [
+            "Battlegroup§Line"
+          ]
+        },
+        "rules": {
+          "Admiral Missing": {
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ],
+                "value": 0
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Admiral must be in Dreadnought if one is present": {
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "stats",
+                    "AdmiralSH",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{roster}",
+                  "stats",
+                  "DreadnoughtYN",
+                  "value"
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Below Point Floor": {
+            "evals": [
+              {
+                "actionable": true,
+                "min": [
+                  "{self}",
+                  "tracked",
+                  "minPoints"
+                ],
+                "not": false,
+                "note": "s",
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "totalCost"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Dreadhere": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "DreadnoughtYN"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "min": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Dreadnought"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "Flag Count": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{roster}",
+                  "tracked",
+                  "maxFlag"
+                ],
+                "min": 0,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Flag"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Line Count": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{roster}",
+                  "tracked",
+                  "maxLine"
+                ],
+                "min": [
+                  "{roster}",
+                  "tracked",
+                  "minLine"
+                ],
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Line"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Maximum AV for Skirmish is 3 and for Clash it is 5": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{self}",
+                  "tracked",
+                  "maxAV"
+                ],
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "AV"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Only one Admiral Permitted": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 1,
+                "min": 0,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Admiral"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Over Launch Cap": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{roster}",
+                  "tracked",
+                  "maxLaunch"
+                ],
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "assetCount"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Over Point Limit": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{roster}",
+                  "tracked",
+                  "Max Points"
+                ],
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    [
+                      "cost",
+                      "totalCost"
+                    ]
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Pathfinder Count": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{roster}",
+                  "tracked",
+                  "maxPathfinder"
+                ],
+                "min": [
+                  "{roster}",
+                  "tracked",
+                  "minPathfinder"
+                ],
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Pathfinder"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Too Many Battelgroups": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{self}",
+                  "stats",
+                  "maxBattlegroups",
+                  "value"
+                ],
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "tally",
+                    "Battlegroup"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "Vanguard Count": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": [
+                  "{self}",
+                  "tracked",
+                  "maxVanguard"
+                ],
+                "min": 0,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Vanguard"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "stats": {
+          "Admiral Level": {
+            "dynamic": true,
+            "ranks": {
+              "1": {
+                "number": 1,
+                "order": 0,
+                "tracking": {
+                  "AV": 1
+                }
+              },
+              "2": {
+                "number": 2,
+                "order": 1,
+                "tracking": {
+                  "AV": 2,
+                  "totalCost": 20
+                }
+              },
+              "3": {
+                "number": 3,
+                "order": 2,
+                "tracking": {
+                  "AV": 3,
+                  "totalCost": 40
+                }
+              },
+              "4": {
+                "number": 4,
+                "order": 3,
+                "tracking": {
+                  "AV": 4,
+                  "totalCost": 80
+                }
+              },
+              "5": {
+                "number": 5,
+                "order": 4,
+                "tracking": {
+                  "AV": 5,
+                  "totalCost": 100
+                }
+              },
+              "6": {
+                "number": 6,
+                "order": 5,
+                "tracking": {
+                  "AV": 6,
+                  "totalCost": 140
+                }
+              }
+            },
+            "statType": "rank",
+            "tracked": true,
+            "value": "1",
+            "visibility": "normal"
+          },
+          "AdmiralSH": {
+            "max": 1,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "hidden"
+          },
+          "assetCount": {
+            "label": "Current Launch",
+            "statOrder": 3,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Battle Size": {
+            "dynamic": true,
+            "ranks": {
+              "Skirmish": {
+                "order": 0,
+                "tracking": {
+                  "Max Points": 999,
+                  "maxAV": 3,
+                  "maxBattlegroups": 4,
+                  "Maxgrouppts": 500,
+                  "maxLaunch": 10,
+                  "maxLine": 2,
+                  "maxPathfinder": 2,
+                  "maxVanguard": 1,
+                  "minLine": 1,
+                  "minPathfinder": 0,
+                  "minVanguard": 0
+                }
+              },
+              "Clash": {
+                "order": 1,
+                "tracking": {
+                  "Max Points": 1999,
+                  "maxAV": 5,
+                  "maxBattlegroups": 6,
+                  "maxFlag": 1,
+                  "Maxgrouppts": 666,
+                  "maxLaunch": 15,
+                  "maxLine": 3,
+                  "maxPathfinder": 2,
+                  "maxVanguard": 2,
+                  "minLine": 1,
+                  "minPathfinder": 1,
+                  "minPoints": 1000
+                }
+              },
+              "Battle": {
+                "order": 2,
+                "tracking": {
+                  "Max Points": 3000,
+                  "maxAV": 6,
+                  "maxBattlegroups": 7,
+                  "maxFlag": 2,
+                  "Maxgrouppts": 1000,
+                  "maxLaunch": 20,
+                  "maxLine": 4,
+                  "maxPathfinder": 3,
+                  "maxVanguard": 3,
+                  "minLine": 1,
+                  "minPathfinder": 1,
+                  "minPoints": 2000
+                }
+              }
+            },
+            "statOrder": 1,
+            "statType": "rank",
+            "tracked": true,
+            "value": "Skirmish",
+            "visibility": "normal"
+          },
+          "DreadnoughtYN": {
+            "max": 1,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "hidden"
+          },
+          "Faction": {
+            "dynamic": true,
+            "label": "Faction",
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "UCM": {
+                "order": 1,
+                "term": "UCM"
+              },
+              "Scourge": {
+                "order": 2,
+                "term": "Scourge"
+              },
+              "PHR": {
+                "order": 3,
+                "term": "PHR"
+              },
+              "Shaltari Tribes": {
+                "order": 4,
+                "term": "Shaltari"
+              },
+              "Resistance": {
+                "order": 5,
+                "term": "Resistance"
+              }
+            },
+            "statOrder": 7,
+            "statType": "rank",
+            "value": "-",
+            "visibility": "normal"
+          },
+          "Max Points": {
+            "label": "Point Cap",
+            "statOrder": 4,
+            "statType": "numeric",
+            "tracked": true,
+            "value": null,
+            "visibility": "normal"
+          },
+          "maxBattlegroups": {
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "hidden"
+          },
+          "Maxgrouppts": {
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "hidden"
+          },
+          "maxLaunch": {
+            "label": "Launch Cap",
+            "statOrder": 5,
+            "statType": "numeric",
+            "tracked": true,
+            "value": null,
+            "visibility": "normal"
+          },
+          "totalCost": {
+            "label": "Current Points",
+            "statOrder": 2,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          }
+        }
+      }
+    },
+    "gameModes": {},
+    "theme": {}
+  }
+}
